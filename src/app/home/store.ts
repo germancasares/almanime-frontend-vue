@@ -1,26 +1,35 @@
-import { Module, VuexModule, Mutation, Action } from 'vuex-module-decorators';
+import { Module, VuexModule, Mutation, Action, getModule } from 'vuex-module-decorators';
+import Axios from 'axios';
+import { Anime } from '@/models';
+import Helper from '@/utils/helper';
+import store from '@/store';
 
-@Module
-export default class Home extends VuexModule {
-  public count = 0;
+export interface IHomeState {
+  currentSeason: Anime[];
+}
 
-  // action 'incr' commits mutation 'increment' when done with return value as payload
-  @Action({ commit: 'increment' })
-  public incr() {
-    return 5;
-  }
-  // action 'decr' commits mutation 'decrement' when done with return value as payload
-  @Action({ commit: 'decrement' })
-  public decr() {
-    return 5;
+@Module({
+  name: 'Home',
+  store: store,
+  dynamic: true,
+  namespaced: true,
+})
+class HomeModule extends VuexModule implements IHomeState {
+  public currentSeason: Anime[] = [];
+
+  @Action({ commit: 'LOAD_CURRENT_SEASON', rawError: true })
+  public async GetCurrentSeason() {
+    var now = new Date(Date.now());
+    var year = now.getFullYear();
+    var season = Helper.GetSeason(now.getMonth());
+
+    return (await Axios.get<Anime[]>(`Anime/Year=${year}&Season=${season}`)).data;
   }
 
   @Mutation
-  public increment(delta: number) {
-    this.count += delta;
-  }
-  @Mutation
-  public decrement(delta: number) {
-    this.count -= delta;
+  public LOAD_CURRENT_SEASON(animes: Anime[]) {
+    this.currentSeason = animes;
   }
 }
+
+export default getModule(HomeModule)
