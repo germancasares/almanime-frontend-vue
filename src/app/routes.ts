@@ -1,4 +1,4 @@
 import { routes as home } from './home';
-import { routes as about } from './about';
+import { routes as anime } from './anime';
 
-export default [ ...home, ...about ];
+export default [ ...home, ...anime ];
