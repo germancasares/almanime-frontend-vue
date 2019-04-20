@@ -25,13 +25,13 @@ import { Anime } from '@/models';
 @Component({
   components: { tile },
   computed: mapState('Home', {
-    currentSeason: (state: IHomeState) => state.currentSeason
-  })
+    currentSeason: (state: IHomeState) => state.currentSeason,
+  }),
 })
 export default class Home extends Vue {
   public currentSeason!: Anime[];
 
-  async mounted() {
+  public async mounted() {
     await HomeModule.GetCurrentSeason().catch(alert);
   }
 

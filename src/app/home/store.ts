@@ -10,7 +10,7 @@ export interface IHomeState {
 
 @Module({
   name: 'Home',
-  store: store,
+  store,
   dynamic: true,
   namespaced: true,
 })
@@ -19,9 +19,9 @@ class HomeModule extends VuexModule implements IHomeState {
 
   @Action({ commit: 'LOAD_CURRENT_SEASON', rawError: true })
   public async GetCurrentSeason() {
-    var now = new Date(Date.now());
-    var year = now.getFullYear();
-    var season = Helper.GetSeason(now.getMonth());
+    const now = new Date(Date.now());
+    const year = now.getFullYear();
+    const season = Helper.GetSeason(now.getMonth());
 
     return (await Axios.get<Anime[]>(`Anime/Year=${year}&Season=${season}`)).data;
   }
@@ -32,4 +32,4 @@ class HomeModule extends VuexModule implements IHomeState {
   }
 }
 
-export default getModule(HomeModule)
+export default getModule(HomeModule);

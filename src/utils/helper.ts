@@ -2,15 +2,15 @@ import { Season } from '@/enums';
 
 export default { Chunk, GetSeason };
 
-function* Chunk<T>(collection: Array<T>, size = 2): IterableIterator<Array<T>> {
-  for(let index = 0; index < collection.length; index += size) {
+function* Chunk<T>(collection: T[], size = 2): IterableIterator<T[]> {
+  for (let index = 0; index < collection.length; index += size) {
     yield collection.slice(index, size + index);
   }
 }
 
 function GetSeason(month: number): Season {
-  switch(true) {
-    case month == 12 || month <= 2:
+  switch (true) {
+    case month === 12 || month <= 2:
       return Season.Winter;
   case month >= 3 && month <= 5:
       return Season.Spring;

@@ -12,15 +12,15 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop } from "vue-property-decorator";
-import { Season } from '@/enums'
+import { Component, Vue, Prop } from 'vue-property-decorator';
+import { Season } from '@/enums';
 
 @Component({
   filters: {
     checkDefault(realImage: URL, season: Season) {
       return realImage || require(`@/assets/seasons/${season}.jpg`);
-    }
-  }
+    },
+  },
 })
 export default class Hero extends Vue {
   @Prop() private image!: URL;

@@ -11,7 +11,7 @@ export interface IAnimeState {
 
 @Module({
   name: 'Anime',
-  store: store,
+  store,
   dynamic: true,
   namespaced: true,
 })

@@ -6,14 +6,14 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop } from "vue-property-decorator";
-import { Anime } from "@/models";
+import { Component, Vue, Prop } from 'vue-property-decorator';
+import { Anime } from '@/models';
 
-import poster from "./Poster.vue";
-import info from "./Info.vue";
+import poster from './Poster.vue';
+import info from './Info.vue';
 
 @Component({
-  components: { poster, info }
+  components: { poster, info },
 })
 export default class Sidebar extends Vue {
   @Prop() private anime!: Anime;

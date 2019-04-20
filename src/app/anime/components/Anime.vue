@@ -15,23 +15,23 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop } from "vue-property-decorator";
-import hero from "./Hero.vue";
-import sidebar from "./Sidebar.vue";
-import crux from "./Crux.vue";
+import { Component, Vue, Prop } from 'vue-property-decorator';
+import hero from './Hero.vue';
+import sidebar from './Sidebar.vue';
+import crux from './Crux.vue';
 import { mapState } from 'vuex';
 import AnimeModule, { IAnimeState } from '@/app/anime/store';
 
 @Component({
   components: { hero, sidebar, crux },
   computed: mapState('Anime', {
-    anime: (state: IAnimeState) => state.anime
-  })
+    anime: (state: IAnimeState) => state.anime,
+  }),
 })
 export default class Anime extends Vue {
-  async mounted() {
-    if(this.$route.params['slug'] !== null) {
-      await AnimeModule.GetAnimeBySlug(this.$route.params['slug']).catch(alert);
+  public async mounted() {
+    if (this.$route.params.slug !== null) {
+      await AnimeModule.GetAnimeBySlug(this.$route.params.slug).catch(alert);
     }
   }
 }

@@ -27,16 +27,16 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop } from "vue-property-decorator";
+import { Component, Vue, Prop } from 'vue-property-decorator';
 import { Anime } from '@/models';
 import { DateFull } from '@/utils/filter';
 
 @Component({
-  filters: { DateFull }
+  filters: { DateFull },
 })
 export default class Info extends Vue {
   @Prop() private anime!: Anime;
-};
+}
 </script>
 
 <style lang='scss' scoped>
