@@ -29,7 +29,7 @@ import AnimeModule, { IAnimeState } from '@/app/anime/store';
   }),
 })
 export default class Anime extends Vue {
-  public async mounted() {
+  public async created() {
     if (this.$route.params.slug !== null) {
       await AnimeModule.GetAnimeBySlug(this.$route.params.slug).catch(alert);
     }
