@@ -51,18 +51,18 @@
           </div>
 
           <div class="navbar-item has-dropdown is-hoverable" v-if="isAuthenticated">
-            <div class="navbar-link">{{ userName }}</div>
+            <div class="navbar-link">{{ username }}</div>
 
             <div class="navbar-dropdown is-right">
               <a class="navbar-item">Profile</a>
               <a class="navbar-item">Favourites</a>
               <a class="navbar-item">Settings</a>
               <hr class="navbar-divider">
-              <a class="navbar-item">Logout</a>
+              <a class="navbar-item" v-on:click="logout">Logout</a>
             </div>
           </div>
 
-           <div class="navbar-item" v-else>
+          <div class="navbar-item" v-else>
             <div class="field is-grouped">
               <p class="control">
                 <router-link :to="{ name: 'register' }" class="button is-primary">Register</router-link>
@@ -79,25 +79,35 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
-import MagnifyIcon from 'icons/Magnify.vue';
+import { Component, Vue } from "vue-property-decorator";
+import { mapState } from "vuex";
+import AccountModule, { IAccountState } from "@/app/account/store";
+import MagnifyIcon from "icons/Magnify.vue";
+import { set as setCookie } from "es-cookie";
 
 @Component({
   components: {
-    MagnifyIcon,
+    MagnifyIcon
   },
+  computed: mapState("Account", {
+    isAuthenticated: (state: IAccountState) => !!state.token,
+    username: (state: IAccountState) => state.username
+  })
 })
-export default class Header extends Vue {}
+export default class Header extends Vue {
+  logout() {
+    AccountModule.Logout();
+  }
+}
 </script>
 
-<style>
-
+<style lang='scss' scoped>
 .navbar-item {
   padding: 0.5rem 1rem;
 }
 
 .navbar-link {
-    min-width: 131px;
-    text-transform: capitalize;
+  min-width: 131px;
+  text-transform: capitalize;
 }
 </style>
