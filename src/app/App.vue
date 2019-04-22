@@ -6,17 +6,29 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import { Component, Vue } from 'vue-property-decorator';
+import { get as getCookie } from "es-cookie";
+import AccountModule, { IAccountState } from "@/app/account/store";
 import { Header } from './header';
 import { Footer } from './footer';
 
-export default {
+@Component({
   name: 'App',
   components: {
     Header,
     Footer,
-  },
-};
+  }
+})
+export default class App extends Vue {
+  created() {
+    let cookie = getCookie('accountState');
+    if(cookie !== undefined) {
+      let accountState: IAccountState = JSON.parse(cookie);
+      AccountModule.LoadState(accountState);
+    }
+  }
+}
 </script>
 
 <style lang="scss">
