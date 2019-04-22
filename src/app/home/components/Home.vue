@@ -29,9 +29,9 @@ import { Anime } from '@/models';
   }),
 })
 export default class Home extends Vue {
-  public currentSeason!: Anime[];
+  private currentSeason!: Anime[];
 
-  public async mounted() {
+  public async created() {
     await HomeModule.GetCurrentSeason().catch(alert);
   }
 
