@@ -20,7 +20,7 @@ class AnimeModule extends VuexModule implements IAnimeState {
 
   @Action({ commit: 'LOAD_ANIME', rawError: true })
   public async GetAnimeBySlug(slug: string) {
-    return (await Axios.get<Anime>(`Anime/Slug=${slug}`)).data;
+    return (await Axios.get<Anime>(`anime/slug/${slug}`)).data;
   }
 
   @Mutation
