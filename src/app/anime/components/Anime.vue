@@ -7,7 +7,7 @@
           <sidebar :anime="anime"></sidebar>
         </div>
         <div class="column is-paddingless">
-          <crux :title="anime.name" :synopsis="anime.synopsis"></crux>
+          <crux :title="anime.name" :synopsis="anime.synopsis" :episodes="anime.episodes"></crux>
         </div>
       </div>
     </section>

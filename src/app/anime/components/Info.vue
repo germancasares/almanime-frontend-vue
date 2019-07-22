@@ -7,7 +7,7 @@
       <ul>
         <li v-if="anime.episodes">
           <strong class="has-text-primary has-text-weight-bold">Episodes: </strong>
-          <span>{{ anime.episodes }}</span>
+          <span>{{ anime.episodes.length }}</span>
         </li>
         <li>
           <strong class="has-text-primary has-text-weight-bold">Status: </strong>
@@ -20,6 +20,12 @@
         <li>
           <strong class="has-text-primary has-text-weight-bold">Season: </strong>
           <span>{{ anime.season }}</span>
+        </li>
+        <li class="links">
+          <strong class="has-text-primary has-text-weight-bold">Links: </strong>
+          <a :href="`https://kitsu.io/anime/${anime.slug}`" target="_blank">
+            <img class="kitsuLogo" :src="kitsuLogo">
+          </a>
         </li>
       </ul>
     </div>
@@ -36,6 +42,10 @@ import { DateFull } from '@/utils/filter';
 })
 export default class Info extends Vue {
   @Prop() private anime!: Anime;
+
+  get kitsuLogo() {
+    return require('@/assets/kitsu.png');
+  }
 }
 </script>
 
@@ -62,6 +72,16 @@ export default class Info extends Vue {
   div {
     position: relative;
     margin-top: -35px;
+
+    .links {
+      display:flex;
+      align-items:center;
+
+      .kitsuLogo {
+        height: 30px;
+        width: 30px;
+      }
+    }
   }
 }
 </style>

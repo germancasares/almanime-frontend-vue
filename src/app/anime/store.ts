@@ -29,6 +29,14 @@ class AnimeModule extends VuexModule implements IAnimeState {
 
     // anime.startDate is string even though is defined as DateTime in Typescript.
     this.anime.startDate = DateTime.fromISO(anime.startDate.toString());
+
+    // The same for the episode.aired DateTimes.
+    this.anime.episodes.forEach(
+      (episode) =>
+        episode.aired = episode.aired !== null
+        ? DateTime.fromISO(episode.aired.toString())
+        : episode.aired,
+    );
   }
 }
 
