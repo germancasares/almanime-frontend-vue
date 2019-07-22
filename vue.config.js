@@ -5,6 +5,7 @@ module.exports = {
     name: 'Almanime'
   },
   configureWebpack: {
+    devtool: 'source-map',
     resolve: {
       alias : {
         "icons": path.resolve(__dirname, "node_modules/vue-material-design-icons")
