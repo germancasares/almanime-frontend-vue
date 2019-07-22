@@ -79,23 +79,23 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
-import { mapState } from "vuex";
-import AccountModule, { IAccountState } from "@/app/account/store";
-import MagnifyIcon from "icons/Magnify.vue";
-import { set as setCookie } from "es-cookie";
+import { Component, Vue } from 'vue-property-decorator';
+import { mapState } from 'vuex';
+import AccountModule, { IAccountState } from '@/app/account/store';
+import MagnifyIcon from 'icons/Magnify.vue';
+import { set as setCookie } from 'es-cookie';
 
 @Component({
   components: {
-    MagnifyIcon
+    MagnifyIcon,
   },
-  computed: mapState("Account", {
+  computed: mapState('Account', {
     isAuthenticated: (state: IAccountState) => !!state.token,
-    username: (state: IAccountState) => state.username
-  })
+    username: (state: IAccountState) => state.username,
+  }),
 })
 export default class Header extends Vue {
-  logout() {
+  private logout() {
     AccountModule.Logout();
   }
 }
