@@ -45,32 +45,32 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop } from "vue-property-decorator";
-import { mapState } from "vuex";
-import AccountModule, { IAccountState } from "@/app/account/store";
-import { Register as RegisterForm } from "@/models/account";
-import { set as setCookie } from "es-cookie";
-import Axios from "axios";
+import { Component, Vue, Prop } from 'vue-property-decorator';
+import { mapState } from 'vuex';
+import AccountModule, { IAccountState } from '@/app/account/store';
+import { Register as RegisterForm } from '@/models/account';
+import { set as setCookie } from 'es-cookie';
+import Axios from 'axios';
 
 enum ErrorCode {
   PasswordTooShort,
   PasswordRequiresNonAlphanumeric,
   PasswordRequiresDigit,
-  PasswordRequiresUpper
+  PasswordRequiresUpper,
 }
 
 @Component({
-  computed: mapState("Account", {
+  computed: mapState('Account', {
     isAuthenticated: (state: IAccountState) => !!state.token,
-    accountState: (state: IAccountState) => state
-  })
+    accountState: (state: IAccountState) => state,
+  }),
 })
 export default class Register extends Vue {
   private registerForm = {
-    email: "",
-    username: "",
-    password: "",
-    confirmPassword: ""
+    email: '',
+    username: '',
+    password: '',
+    confirmPassword: '',
   } as RegisterForm;
 
   private accountState!: IAccountState;
@@ -84,53 +84,59 @@ export default class Register extends Vue {
 
   private doPasswordsMatch = true;
 
-  created() {
+  private created() {
     if (this.isAuthenticated) {
-      this.$router.push({ name: "home" });
+      this.$router.push({ name: 'home' });
     }
   }
 
-  passwordsMatch() {
+  private passwordsMatch() {
     this.doPasswordsMatch = this.registerForm.password === this.registerForm.confirmPassword;
   }
 
-  async register() {
+  private async register() {
     await AccountModule.Register(this.registerForm)
-      .then(value => {
-        setCookie("accountState", JSON.stringify(this.accountState), {
-          expires: this.accountState.expiration.toJSDate()
+      .then((value) => {
+        setCookie('accountState', JSON.stringify(this.accountState), {
+          expires: this.accountState.expiration.toJSDate(),
         });
 
-        this.$router.push({ name: "home" });
+        this.$router.push({ name: 'home' });
       })
-      .catch(reason => {
+      .catch((reason) => {
         // fill errors.
       });
   }
 
-  async checkEmail() {
-    let email = this.registerForm.email.trim();
+  private async checkEmail() {
+    const email = this.registerForm.email.trim();
 
-    if (email === "") {
+    if (email === '') {
       // Email is incorrect
       this.isEmailVisible = true;
     }
 
     await Axios.head(`account/email/${email}`)
-    .then(() => {this.isEmailAvailable = false;}, () => {this.isEmailAvailable = true;});
+    .then(
+      () => { this.isEmailAvailable = false; },
+      () => { this.isEmailAvailable = true; },
+    );
     this.isEmailVisible = true;
   }
 
-  async checkUsername() {
-    let username = this.registerForm.username.trim();
+  private async checkUsername() {
+    const username = this.registerForm.username.trim();
 
-    if (username === "") {
+    if (username === '') {
       // Username is incorrect
       this.isUsernameVisible = true;
     }
 
     await Axios.head(`account/username/${username}`)
-    .then(() => {this.isUsernameAvailable = false;}, () => {this.isUsernameAvailable = true;});
+    .then(
+      () => { this.isUsernameAvailable = false; },
+      () => { this.isUsernameAvailable = true; },
+    );
     this.isUsernameVisible = true;
   }
 }

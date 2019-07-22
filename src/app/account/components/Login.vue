@@ -62,22 +62,22 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop } from "vue-property-decorator";
-import { mapState } from "vuex";
-import AccountModule, { IAccountState } from "@/app/account/store";
-import { Login as LoginForm } from "@/models/account";
-import { set as setCookie } from "es-cookie";
+import { Component, Vue, Prop } from 'vue-property-decorator';
+import { mapState } from 'vuex';
+import AccountModule, { IAccountState } from '@/app/account/store';
+import { Login as LoginForm } from '@/models/account';
+import { set as setCookie } from 'es-cookie';
 
 @Component({
-  computed: mapState("Account", {
+  computed: mapState('Account', {
     isAuthenticated: (state: IAccountState) => !!state.token,
-    accountState: (state: IAccountState) => state
-  })
+    accountState: (state: IAccountState) => state,
+  }),
 })
 export default class Login extends Vue {
   private loginForm = {
-    identifier: "",
-    password: ""
+    identifier: '',
+    password: '',
   } as LoginForm;
 
   private beRemembered = false;
@@ -86,26 +86,26 @@ export default class Login extends Vue {
   private accountState!: IAccountState;
   private isAuthenticated!: boolean;
 
-  created() {
+  private created() {
     if (this.isAuthenticated) {
-      this.$router.push({ name: "home" });
+      this.$router.push({ name: 'home' });
     }
   }
 
-  async login() {
+  private async login() {
     this.isUnauthorized = false;
 
     await AccountModule.Authenticate(this.loginForm)
-      .then(value => {
+      .then((value) => {
         if (this.beRemembered) {
-          setCookie("accountState", JSON.stringify(this.accountState), {
-            expires: this.accountState.expiration.toJSDate()
+          setCookie('accountState', JSON.stringify(this.accountState), {
+            expires: this.accountState.expiration.toJSDate(),
           });
         }
 
-        this.$router.push({ name: "home" });
+        this.$router.push({ name: 'home' });
       })
-      .catch(reason => {
+      .catch((reason) => {
         this.isUnauthorized = true;
       });
   }

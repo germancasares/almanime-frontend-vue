@@ -4,7 +4,7 @@ import store from '@/store';
 import Axios from 'axios';
 import { Login, Register } from '@/models/account';
 import JwtDecode from 'jwt-decode';
-import { remove as removeCookie } from "es-cookie";
+import { remove as removeCookie } from 'es-cookie';
 
 export interface IAccountState {
   username: string;
@@ -24,9 +24,9 @@ interface TokenDto {
   namespaced: true,
 })
 class AccountModule extends VuexModule implements IAccountState {
-  username: string = '';
-  token: string = '';
-  expiration: DateTime = DateTime.utc();
+  public username: string = '';
+  public token: string = '';
+  public expiration: DateTime = DateTime.utc();
 
   @Action({ commit: 'AUTHENTICATE', rawError: true})
   public async Authenticate(login: Login) {
@@ -42,7 +42,7 @@ class AccountModule extends VuexModule implements IAccountState {
   public AUTHENTICATE(token: string) {
     this.token = token;
 
-    let decodedToken = JwtDecode<TokenDto>(token);
+    const decodedToken = JwtDecode<TokenDto>(token);
     this.expiration = DateTime.fromSeconds(decodedToken.exp);
     this.username = decodedToken.username;
   }
@@ -59,8 +59,8 @@ class AccountModule extends VuexModule implements IAccountState {
     return {
       username: '',
       token: '',
-      expiration: DateTime.utc()
-    }
+      expiration: DateTime.utc(),
+    };
   }
 
 }
