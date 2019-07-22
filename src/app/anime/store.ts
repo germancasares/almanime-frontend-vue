@@ -6,7 +6,7 @@ import { Season, Status } from '@/enums';
 import { DateTime } from 'luxon';
 
 export interface IAnimeState {
-  anime: Anime,
+  anime: Anime;
 }
 
 @Module({
