@@ -8,8 +8,8 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import { get as getCookie } from "es-cookie";
-import AccountModule, { IAccountState } from "@/app/account/store";
+import { get as getCookie } from 'es-cookie';
+import AccountModule, { IAccountState } from '@/app/account/store';
 import { Header } from './header';
 import { Footer } from './footer';
 
@@ -18,13 +18,13 @@ import { Footer } from './footer';
   components: {
     Header,
     Footer,
-  }
+  },
 })
 export default class App extends Vue {
-  created() {
-    let cookie = getCookie('accountState');
-    if(cookie !== undefined) {
-      let accountState: IAccountState = JSON.parse(cookie);
+  private created() {
+    const cookie = getCookie('accountState');
+    if (cookie !== undefined) {
+      const accountState: IAccountState = JSON.parse(cookie);
       AccountModule.LoadState(accountState);
     }
   }
