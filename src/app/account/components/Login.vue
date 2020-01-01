@@ -96,7 +96,10 @@ export default class Login extends Vue {
     this.isUnauthorized = false;
 
     await AccountModule.Authenticate(this.loginForm)
-      .then((value) => {
+      .then(async (value) => {
+
+        await AccountModule.LoadAvatar();
+
         if (this.beRemembered) {
           setCookie('accountState', JSON.stringify(this.accountState), {
             expires: this.accountState.expiration.toJSDate(),
