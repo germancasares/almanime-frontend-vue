@@ -1,5 +1,5 @@
 import { RouteConfig } from 'vue-router';
-import { Register, Login } from './components';
+import { Register, Login, Profile } from './components';
 
 const routes: RouteConfig[] = [
     {
@@ -11,6 +11,11 @@ const routes: RouteConfig[] = [
         path: '/login',
         name: 'login',
         component: Login,
+    },
+    {
+        path: '/profile',
+        name: 'profile',
+        component: Profile,
     },
 ];
 
