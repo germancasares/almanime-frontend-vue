@@ -50,11 +50,16 @@
             </div>
           </div>
 
+          <div v-if="this.isAuthenticated" class="navbar-item is-paddingless">
+            <Avatar v-if="this.hasAvatar" :size="30" :src="`${this.avatarUrl}`"></Avatar>
+            <Avatar v-else color="black" :size="30" :username="`${this.username}`"></Avatar>
+          </div>
+
           <div class="navbar-item has-dropdown is-hoverable" v-if="isAuthenticated">
             <div class="navbar-link">{{ username }}</div>
 
             <div class="navbar-dropdown is-right">
-              <a class="navbar-item">Profile</a>
+              <router-link :to="{ name: 'profile' }" class="navbar-item">Profile</router-link>
               <a class="navbar-item">Favourites</a>
               <a class="navbar-item">Settings</a>
               <hr class="navbar-divider">
@@ -85,13 +90,18 @@ import AccountModule, { IAccountState } from '@/app/account/store';
 import MagnifyIcon from 'icons/Magnify.vue';
 import { set as setCookie } from 'es-cookie';
 
+var Avatar = require('vue-avatar').Avatar;
+
 @Component({
   components: {
     MagnifyIcon,
+    Avatar
   },
   computed: mapState('Account', {
     isAuthenticated: (state: IAccountState) => !!state.token,
     username: (state: IAccountState) => state.username,
+    avatarUrl: (state: IAccountState) => state.avatarUrl,
+    hasAvatar: (state: IAccountState) => state.avatarUrl.href !== process.env.VUE_APP_EMPTYURL,
   }),
 })
 export default class Header extends Vue {
