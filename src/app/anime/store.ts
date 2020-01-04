@@ -1,8 +1,7 @@
-import { Module, VuexModule, Mutation, Action, getModule } from 'vuex-module-decorators';
+import { Module, VuexModule, Mutation, Action, getModule, MutationAction } from 'vuex-module-decorators';
 import { Anime } from '@/models';
 import store from '@/store';
 import Axios from 'axios';
-import { Season, Status } from '@/enums';
 import { DateTime } from 'luxon';
 
 export interface IAnimeState {
@@ -37,6 +36,13 @@ class AnimeModule extends VuexModule implements IAnimeState {
         ? DateTime.fromISO(episode.aired.toString())
         : episode.aired,
     );
+  }
+
+  @MutationAction({ mutate: ['anime'] })
+  public async CleanAnime() {
+    return {
+      anime: {},
+    };
   }
 }
 

@@ -29,6 +29,7 @@ import AnimeModule, { IAnimeState } from '@/app/anime/store';
     Crux,
   },
   computed: mapState('Anime', ['anime']),
+  beforeRouteLeave: (to, from, next) => { AnimeModule.CleanAnime(); next(); },
 })
 export default class Anime extends Vue {
   public async created() {
