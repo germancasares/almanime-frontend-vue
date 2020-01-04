@@ -22,10 +22,11 @@ import Helper from '@/utils/helper';
   },
 })
 export default class App extends Vue {
-  private created() {
+  private async created() {
     const accountState = Helper.Cookie.GetAccountState();
     if (accountState !== null) {
-      UserModule.LoadState(accountState);
+      await UserModule.LoadState(accountState);
+      await UserModule.LoadUser();
     }
   }
 }
