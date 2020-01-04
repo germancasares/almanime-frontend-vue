@@ -5,7 +5,7 @@ import router from './router';
 import store from './store';
 
 // Design dependencies
-import 'icons/styles.css';
+import '@mdi/font/css/materialdesignicons.css';
 import Buefy from 'buefy';
 
 // Backend Calls
