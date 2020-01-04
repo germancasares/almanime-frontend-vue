@@ -97,7 +97,9 @@ const Avatar = require('vue-avatar').Avatar;
     avatarUrl: 'avatarUrl',
     username: (state: IUserState) => state.account.username,
     isAuthenticated: (state: IUserState) => !!state.account.token,
-    hasAvatar: (state: IUserState) => state.avatarUrl.href !== process.env.VUE_APP_EMPTYURL,
+    hasAvatar: (state: IUserState) =>
+      state.avatarUrl.href !== undefined &&
+      state.avatarUrl.href !== process.env.VUE_APP_EMPTYURL,
   }),
 })
 export default class Header extends Vue {
