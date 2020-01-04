@@ -18,7 +18,7 @@ const routes: RouteConfig[] = [
         component: Profile,
         meta: {
             requiresAuth: true,
-        }
+        },
     },
 ];
 
