@@ -1,13 +1,13 @@
 <template>
   <main>
-    <hero :image="anime.coverImage"></hero>
+    <Hero :image="anime.coverImage" :season="anime.season"></Hero>
     <section class="container">
       <div class="columns">
         <div class="column is-narrow is-paddingless">
-          <sidebar :anime="anime"></sidebar>
+          <Sidebar :anime="anime"></Sidebar>
         </div>
         <div class="column is-paddingless">
-          <crux :title="anime.name" :synopsis="anime.synopsis" :episodes="anime.episodes"></crux>
+          <Crux :title="anime.name" :synopsis="anime.synopsis" :episodes="anime.episodes"></Crux>
         </div>
       </div>
     </section>
@@ -15,18 +15,20 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop } from 'vue-property-decorator';
-import hero from './Hero.vue';
-import sidebar from './Sidebar.vue';
-import crux from './Crux.vue';
+import { Component, Vue, Prop, Watch } from 'vue-property-decorator';
+import Hero from './Hero.vue';
+import Sidebar from './Sidebar.vue';
+import Crux from './Crux.vue';
 import { mapState } from 'vuex';
 import AnimeModule, { IAnimeState } from '@/app/anime/store';
 
 @Component({
-  components: { hero, sidebar, crux },
-  computed: mapState('Anime', {
-    anime: (state: IAnimeState) => state.anime,
-  }),
+  components: {
+    Hero,
+    Sidebar,
+    Crux,
+  },
+  computed: mapState('Anime', ['anime']),
 })
 export default class Anime extends Vue {
   public async created() {
