@@ -8,7 +8,7 @@
             alt="Almanime: subtitles for all"
             width="112"
             height="28"
-          >
+          />
         </router-link>
 
         <div class="navbar-burger">
@@ -39,30 +39,31 @@
                 </span>
               </p>
               <p class="control">
-                <input class="input" type="text" placeholder="Search for...">
+                <input class="input" type="text" placeholder="Search for..." />
               </p>
 
               <p class="control">
                 <a class="button">
-                  <MagnifyIcon title="Search"/>
+                  <b-icon icon="magnify"></b-icon>
                 </a>
               </p>
             </div>
           </div>
 
-          <div v-if="this.isAuthenticated" class="navbar-item is-paddingless">
-            <Avatar v-if="this.hasAvatar" :size="30" :src="`${this.avatarUrl}`"></Avatar>
-            <Avatar v-else color="black" :size="30" :username="`${this.username}`"></Avatar>
-          </div>
-
           <div class="navbar-item has-dropdown is-hoverable" v-if="isAuthenticated">
-            <div class="navbar-link">{{ username }}</div>
+            <div class="navbar-link">
+              <div v-if="this.isAuthenticated" class="avatar">
+                <Avatar v-if="this.hasAvatar" :size="30" :src="`${this.avatarUrl}`"></Avatar>
+                <Avatar v-else color="black" :size="30" :username="`${this.username}`"></Avatar>
+              </div>
+              {{ username }}
+            </div>
 
             <div class="navbar-dropdown is-right">
               <router-link :to="{ name: 'profile' }" class="navbar-item">Profile</router-link>
               <a class="navbar-item">Favourites</a>
               <a class="navbar-item">Settings</a>
-              <hr class="navbar-divider">
+              <hr class="navbar-divider" />
               <a class="navbar-item" v-on:click="logout">Logout</a>
             </div>
           </div>
@@ -86,27 +87,28 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import { mapState } from 'vuex';
-import AccountModule, { IAccountState } from '@/app/account/store';
-import MagnifyIcon from 'icons/Magnify.vue';
-import { set as setCookie } from 'es-cookie';
+import UserModule, { IUserState } from '@/app/account/store';
 
-var Avatar = require('vue-avatar').Avatar;
+const Avatar = require('vue-avatar').Avatar;
 
 @Component({
-  components: {
-    MagnifyIcon,
-    Avatar
-  },
-  computed: mapState('Account', {
-    isAuthenticated: (state: IAccountState) => !!state.token,
-    username: (state: IAccountState) => state.username,
-    avatarUrl: (state: IAccountState) => state.avatarUrl,
-    hasAvatar: (state: IAccountState) => state.avatarUrl.href !== process.env.VUE_APP_EMPTYURL,
+  components: { Avatar },
+  computed: mapState<IUserState, any>('User', {
+    avatarUrl: 'avatarUrl',
+    username: (state: IUserState) => state.account.username,
+    isAuthenticated: (state: IUserState) => !!state.account.token,
+    hasAvatar: (state: IUserState) =>
+      state.avatarUrl.href !== undefined &&
+      state.avatarUrl.href !== process.env.VUE_APP_EMPTYURL,
   }),
 })
 export default class Header extends Vue {
   private logout() {
-    AccountModule.Logout();
+    UserModule.Logout();
+
+    if (this.$router.currentRoute.name !== 'home') {
+      this.$router.push({ name: 'home' });
+    }
   }
 }
 </script>
@@ -119,5 +121,10 @@ export default class Header extends Vue {
 .navbar-link {
   min-width: 131px;
   text-transform: capitalize;
+}
+
+.avatar {
+  padding-right: 0.5rem;
+  padding-left: 0;
 }
 </style>

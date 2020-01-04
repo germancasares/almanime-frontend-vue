@@ -7,7 +7,7 @@
           <p class="subtitle">Please login to proceed.</p>
           <div class="box">
             <figure class="avatar">
-              <img src="https://placehold.it/128x128">
+              <img src="https://i.imgur.com/jitaYgk.png">
             </figure>
             <form @submit.prevent="login">
               <p
@@ -64,14 +64,14 @@
 <script lang="ts">
 import { Component, Vue, Prop } from 'vue-property-decorator';
 import { mapState } from 'vuex';
-import AccountModule, { IAccountState } from '@/app/account/store';
+import UserModule, { IUserState, IAccountState } from '@/app/account/store';
 import { Login as LoginForm } from '@/models/account';
-import { set as setCookie } from 'es-cookie';
+import Helper from '@/utils/helper';
 
 @Component({
-  computed: mapState('Account', {
-    isAuthenticated: (state: IAccountState) => !!state.token,
-    accountState: (state: IAccountState) => state,
+  computed: mapState<IUserState, any>('User', {
+    isAuthenticated: (state: IUserState) => !!state.account.token,
+    account: 'account',
   }),
 })
 export default class Login extends Vue {
@@ -83,7 +83,7 @@ export default class Login extends Vue {
   private beRemembered = false;
   private isUnauthorized = false;
 
-  private accountState!: IAccountState;
+  private account!: IAccountState;
   private isAuthenticated!: boolean;
 
   private created() {
@@ -95,15 +95,13 @@ export default class Login extends Vue {
   private async login() {
     this.isUnauthorized = false;
 
-    await AccountModule.Authenticate(this.loginForm)
+    await UserModule.Authenticate(this.loginForm)
       .then(async (value) => {
 
-        await AccountModule.LoadAvatar();
+        await UserModule.LoadUser();
 
         if (this.beRemembered) {
-          setCookie('accountState', JSON.stringify(this.accountState), {
-            expires: this.accountState.expiration.toJSDate(),
-          });
+          Helper.Cookie.Create(Helper.Cookie.ACCOUNTSTATECOOKIE, this.account);
         }
 
         this.$router.push({ name: 'home' });

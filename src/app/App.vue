@@ -8,10 +8,11 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import { get as getCookie } from 'es-cookie';
-import AccountModule, { IAccountState } from '@/app/account/store';
+import UserModule from '@/app/account/store';
 import { Header } from './header';
 import { Footer } from './footer';
+import Helper from '@/utils/helper';
+
 
 @Component({
   name: 'App',
@@ -22,10 +23,9 @@ import { Footer } from './footer';
 })
 export default class App extends Vue {
   private created() {
-    const cookie = getCookie('accountState');
-    if (cookie !== undefined) {
-      const accountState: IAccountState = JSON.parse(cookie);
-      AccountModule.LoadState(accountState);
+    const accountState = Helper.Cookie.GetAccountState();
+    if (accountState !== null) {
+      UserModule.LoadState(accountState);
     }
   }
 }

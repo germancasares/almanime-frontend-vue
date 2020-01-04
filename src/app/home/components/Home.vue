@@ -6,7 +6,7 @@
         <hr>
         <div class="tile is-ancestor" v-for="animesChunk in currentSeasonAsChunks" :key="animesChunk.id">
           <div class="tile is-parent has-image is-3" v-for="anime in animesChunk" :key="anime.id">
-            <tile :slug="anime.slug" :name="anime.name" :cover="anime.coverImage"></tile>
+            <tile :slug="anime.slug" :name="anime.name" :image="anime.coverImage"></tile>
           </div>
         </div>
       </div>
@@ -24,15 +24,15 @@ import { Anime } from '@/models';
 
 @Component({
   components: { tile },
-  computed: mapState('Home', {
-    currentSeason: (state: IHomeState) => state.currentSeason,
-  }),
+  computed: mapState('Home', ['currentSeason']),
 })
 export default class Home extends Vue {
   private currentSeason!: Anime[];
 
   public async created() {
-    await HomeModule.GetCurrentSeason().catch(alert);
+    if (!this.currentSeason.length) {
+      await HomeModule.GetCurrentSeason().catch(alert);
+    }
   }
 
   get currentSeasonAsChunks() {

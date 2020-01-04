@@ -9,7 +9,7 @@
     <section class="chapters">
       <b-table :data="episodeList">
         <template slot-scope="props" slot="header">
-          <b-tooltip :active="!!props.column.meta" :label="props.column.meta" dashed>
+          <b-tooltip :active="!!props.column.meta" :label="props.column.meta.toString()" dashed>
             {{ props.column.label }}
           </b-tooltip>
         </template>
@@ -32,12 +32,6 @@
           </b-table-column>
         </template>
 
-        <!-- <template slot-scope="props" slot="footer">
-          <b-tooltip :active="!!props.column.meta" :label="props.column.meta" dashed>
-            {{ props.column.label }}
-          </b-tooltip>
-        </template> -->
-
         <template slot="footer">
           <th class="is-hidden-mobile">
             <div class="th-wrap">#</div>
@@ -53,35 +47,6 @@
           </th>
         </template>
       </b-table>
-
-
-
-      <!-- <table class="table is-hoverable is-fullwidth">
-        <thead>
-          <tr>
-            <th><abbr title="Number">#</abbr></th>
-            <th>Name</th>
-            <th>Duration</th>
-            <th>Aired</th>
-          </tr>
-        </thead>
-        <tfoot>
-          <tr>
-            <th><abbr title="Number">#</abbr></th>
-            <th>Name</th>
-            <th>Duration</th>
-            <th>Aired</th>
-          </tr>
-        </tfoot>
-        <tbody>
-          <tr v-for="episode in episodeList" :key="episode.id">
-            <th>{{ episode.number }}</th>
-            <td>{{ episode.name }}</td>
-            <td>{{ episode.duration }}</td>
-            <td>{{ episode.aired | DateFull }}</td>
-          </tr>
-        </tbody>
-      </table> -->
     </section>
   </div>
 </template>

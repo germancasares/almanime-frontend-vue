@@ -12,10 +12,7 @@
         <div class="file-upload is-flex">
           <b-field class="file">
             <b-upload v-model="avatar">
-              <a class="button is-info">
-                <Upload title="Upload" />
-                <span>Click to upload</span>
-              </a>
+              <b-button class="is-info" size="is-medium" icon-left="upload">Click to upload</b-button>
             </b-upload>
             <span class="file-name" v-if="avatar.size > 0">{{ avatar.name }}</span>
           </b-field>
@@ -29,49 +26,53 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop, Watch } from "vue-property-decorator";
-import Upload from "icons/Upload.vue";
-import AccountModule, { IAccountState } from '@/app/account/store';
-import { mapState } from "vuex";
+import { Component, Vue, Prop, Watch } from 'vue-property-decorator';
+import UserModule, { IUserState } from '@/app/account/store';
+import { mapState } from 'vuex';
 import Helper from '@/utils/helper';
 
-var Avatar = require("vue-avatar").Avatar;
+const Avatar = require('vue-avatar').Avatar;
 
 @Component({
-  components: { Avatar, Upload },
-  computed: mapState("Account", {
-    avatarUrl: (state: IAccountState) => state.avatarUrl,
-    username: (state: IAccountState) => state.username,
-    hasAvatar: (state: IAccountState) => state.avatarUrl.href !== process.env.VUE_APP_EMPTYURL,
-  })
+  components: { Avatar },
+  computed: mapState<IUserState, any>('User', {
+    avatarUrl: 'avatarUrl',
+    username: 'username',
+    hasAvatar: (state: IUserState) =>
+      state.avatarUrl.href !== undefined &&
+      state.avatarUrl.href !== process.env.VUE_APP_EMPTYURL,
+  }),
 })
 export default class Profile extends Vue {
-  private avatar: File = new File([""], "");
+  private avatar: File = new File([''], '');
   private avatarUrl!: URL;
   private username!: string;
   private hasAvatar!: boolean;
-  private avatarPreview = "";
+  private avatarPreview = '';
 
-  @Watch("avatar")
-  onAvatarChanged(file: File) {
-    var reader = new FileReader();
-    reader.onload = e => {
-      this.avatarPreview = e.target.result;
+  @Watch('avatar')
+  private onAvatarChanged(file: File) {
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      if (event.target == null) {
+        return;
+      }
+      this.avatarPreview = event.target.result as string;
     };
 
     reader.readAsDataURL(file);
   }
 
   private async save() {
-    await AccountModule.UploadAvatar(this.avatar);
+    await UserModule.UpdateAvatar(this.avatar);
   }
 
   get isAvatarEmpty() {
-   return !this.hasAvatar && this.avatarPreview === "";
+   return !this.hasAvatar && this.avatarPreview === '';
   }
 
   get avatarImage() {
-    if (this.avatarPreview !== "") {
+    if (this.avatarPreview !== '') {
       return this.avatarPreview;
     }
 
@@ -81,7 +82,6 @@ export default class Profile extends Vue {
 </script>
 
 <style lang='scss' scoped>
-
 .avatar  {
   justify-content: center
 }
@@ -89,6 +89,11 @@ export default class Profile extends Vue {
 .file-upload {
   padding-top: 10px;
   justify-content: center;
+}
+
+.file-name {
+  height: 100%;
+  display: flex;
 }
 
 .save {

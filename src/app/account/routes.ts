@@ -16,6 +16,9 @@ const routes: RouteConfig[] = [
         path: '/profile',
         name: 'profile',
         component: Profile,
+        meta: {
+            requiresAuth: true,
+        },
     },
 ];
 
