@@ -47,10 +47,10 @@
 <script lang="ts">
 import { Component, Vue, Prop } from 'vue-property-decorator';
 import { mapState } from 'vuex';
-import AccountModule, { IAccountState } from '@/app/account/store';
+import UserModule, { IUserState, IAccountState } from '@/app/account/store';
 import { Register as RegisterForm } from '@/models/account';
-import { set as setCookie } from 'es-cookie';
 import Axios from 'axios';
+import Helper from '@/utils/helper';
 
 enum ErrorCode {
   PasswordTooShort,
@@ -60,9 +60,9 @@ enum ErrorCode {
 }
 
 @Component({
-  computed: mapState('Account', {
-    isAuthenticated: (state: IAccountState) => !!state.token,
-    accountState: (state: IAccountState) => state,
+  computed: mapState<IUserState, any>('User', {
+    isAuthenticated: (state: IUserState) => !!state.account.token,
+    accountState: 'account',
   }),
 })
 export default class Register extends Vue {
@@ -95,11 +95,11 @@ export default class Register extends Vue {
   }
 
   private async register() {
-    await AccountModule.Register(this.registerForm)
-      .then((value) => {
-        setCookie('accountState', JSON.stringify(this.accountState), {
-          expires: this.accountState.expiration.toJSDate(),
-        });
+    await UserModule.Register(this.registerForm)
+      .then(async (value) => {
+        await UserModule.LoadUser();
+
+        Helper.Cookie.Create(Helper.Cookie.ACCOUNTSTATECOOKIE, this.accountState);
 
         this.$router.push({ name: 'home' });
       })
