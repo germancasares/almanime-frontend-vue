@@ -3,7 +3,7 @@
     <div class="container">
       <div class="content has-text-centered">
         <p>
-          <strong>AlmAnime</strong> by passion and ilusion for the fansub world.
+          <strong>AlmAnime</strong> by passion and dedication for the fansub world.
         </p>
       </div>
     </div>
