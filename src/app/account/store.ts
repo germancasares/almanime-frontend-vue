@@ -49,8 +49,12 @@ class UserModule extends VuexModule implements IUserState {
   public async LoadUser() {
     const user = (await Axios.get('user/self')).data;
 
+    const avatarUrl = user.avatarUrl == null ?
+      process.env.VUE_APP_EMPTYURL :
+      `${user.avatarUrl}${new Date().getTime()}`;
+
     return {
-      avatarUrl: new URL(`${user.avatarUrl ?? process.env.VUE_APP_EMPTYURL}?${new Date().getTime()}`),
+      avatarUrl,
       bookmarks: user.bookmarks,
     };
   }
