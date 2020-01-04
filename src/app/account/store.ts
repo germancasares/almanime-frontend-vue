@@ -51,10 +51,10 @@ class UserModule extends VuexModule implements IUserState {
 
     const avatarUrl = user.avatarUrl == null ?
       process.env.VUE_APP_EMPTYURL :
-      `${user.avatarUrl}${new Date().getTime()}`;
+      `${user.avatarUrl}?${new Date().getTime()}`;
 
     return {
-      avatarUrl,
+      avatarUrl: new URL(avatarUrl),
       bookmarks: user.bookmarks,
     };
   }

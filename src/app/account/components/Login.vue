@@ -62,7 +62,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop } from 'vue-property-decorator';
+import { Component, Vue, Prop, Watch } from 'vue-property-decorator';
 import { mapState } from 'vuex';
 import UserModule, { IUserState, IAccountState } from '@/app/account/store';
 import { Login as LoginForm } from '@/models/account';
@@ -86,7 +86,8 @@ export default class Login extends Vue {
   private account!: IAccountState;
   private isAuthenticated!: boolean;
 
-  private created() {
+  @Watch('isAuthenticated')
+  private redirectIfLogged() {
     if (this.isAuthenticated) {
       this.$router.push({ name: 'home' });
     }
