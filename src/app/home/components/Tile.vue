@@ -5,24 +5,53 @@
       <figure class="image is-16by9">
         <img :src="cover || defaultCover">
       </figure>
-      <div class="details">
+      <div class="name">
         <h3>{{ name }}</h3>
+      </div>
+      <div class="bookmark" v-if="isAuthenticated">
+        <div v-if="isBookmarked" @click.prevent="unBookmark">
+          <b-icon icon="star"></b-icon>
+        </div>
+        <div v-else @click.prevent="addBookmark">
+          <b-icon icon="star-outline"></b-icon>
+        </div>
       </div>
     </router-link>
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop } from 'vue-property-decorator';
+import { Component, Vue, Prop, Watch } from 'vue-property-decorator';
+import { mapState } from 'vuex';
+import UserModule, { IUserState } from '@/app/account/store';
 
-@Component
+@Component({
+  computed: {
+    ...mapState<IUserState, any>('User', {
+      isAuthenticated: (state: IUserState) => !!state.account.token,
+      bookmarks: 'bookmarks',
+    }),
+    isBookmarked(this: Tile) {
+      return this.bookmarks.includes(this.slug);
+    },
+  },
+})
 export default class Tile extends Vue {
   @Prop() private name!: string;
   @Prop() private slug!: string;
   @Prop() private cover!: URL;
+  private bookmarks!: string[];
 
   get defaultCover() {
     return require('@/assets/default-cover.jpg');
+  }
+
+  private async addBookmark() {
+    UserModule.AddBookmark(this.slug);
+  }
+
+  private async unBookmark() {
+    UserModule.RemoveBookmark(this.slug);
   }
 }
 </script>
@@ -59,7 +88,7 @@ export default class Tile extends Vue {
     }
   }
 
-  .details {
+  .name {
     position: absolute;
     text-align: center;
     padding-left: 1em;
@@ -76,18 +105,34 @@ export default class Tile extends Vue {
       color: #fff;
       font-weight: 500;
       letter-spacing: 0.15em;
-      margin-bottom: 0.5em;
       text-transform: uppercase;
     }
+  }
+
+  .bookmark {
+    position: absolute;
+    bottom: -10px;
+    right: 5px;
+    opacity: 0;
+    z-index: 3;
+    transform: translate(-50%, -50%);
+    transition: all 0.3s ease-in-out 0s;
+    color: orange;
   }
 
   :hover .overlay {
     opacity: 1;
   }
 
-  :hover .details {
+  :hover .name {
     top: 50%;
     left: 50%;
+    opacity: 1;
+  }
+
+  :hover .bookmark {
+    bottom: -5px;
+    right: 5px;
     opacity: 1;
   }
 }

@@ -24,9 +24,7 @@ import { Anime } from '@/models';
 
 @Component({
   components: { tile },
-  computed: mapState('Home', {
-    currentSeason: (state: IHomeState) => state.currentSeason,
-  }),
+  computed: mapState('Home', ['currentSeason']),
 })
 export default class Home extends Vue {
   private currentSeason!: Anime[];
