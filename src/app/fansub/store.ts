@@ -37,8 +37,8 @@ class FansubModule extends VuexModule implements IFansubState {
       (a: AnimeWithEpisodesAndSubtitle) =>
         a.episodes.forEach(
           (e: EpisodeWithSubtitle) =>
-            e.subtitle.modificationDate = Helper.StringToDateTime(e.subtitle.modificationDate.toString()).toLocal()
-        )
+            e.subtitle.modificationDate = Helper.StringToDateTime(e.subtitle.modificationDate.toString()).toLocal(),
+        ),
     );
 
     return {
