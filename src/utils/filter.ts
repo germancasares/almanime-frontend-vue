@@ -8,5 +8,6 @@ const DateFull = (date: DateTime): string => date.toLocaleString(DateTime.DATE_F
 
 const DateTimeFull = (date: DateTime): string => date.toLocaleString(DateTime.DATETIME_FULL);
 
-const FinishedRecount = (episodes: EpisodeWithSubtitle[]): number => episodes.filter(e => e.subtitle.status === SubtitleStatus.Published).length
+const FinishedRecount = (episodes: EpisodeWithSubtitle[]): number =>
+    episodes.filter((e) => e.subtitle.status === SubtitleStatus.Published).length;
 
