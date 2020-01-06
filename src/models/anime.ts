@@ -1,18 +1,17 @@
-import { Season, Status } from '@/enums';
+import { Season, AnimeStatus } from '@/enums';
 import { DateTime } from 'luxon';
-import { Episode } from '@/models';
 
-export default interface Anime {
-    id: string;
-    kitsuID: number;
-    slug: string;
-    name: string;
-    season: Season;
-    status: Status;
-    synopsis: string;
-    startDate: DateTime;
-    coverImage: URL;
-    posterImage: URL;
+export interface Anime {
+  id: string;
 
-    episodes: Episode[];
+  kitsuID: number;
+  slug: string;
+  name: string;
+  season: Season;
+  status: AnimeStatus;
+  synopsis: string;
+  startDate: DateTime;
+
+  coverImage: URL;
+  posterImage: URL;
 }
