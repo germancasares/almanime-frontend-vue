@@ -1,11 +1,11 @@
 import { Module, VuexModule, Mutation, Action, getModule, MutationAction } from 'vuex-module-decorators';
-import { Anime } from '@/models';
 import store from '@/store';
 import Axios from 'axios';
-import { DateTime } from 'luxon';
+import { AnimeWithEpisodes } from '@/models';
+import Helper from '@/utils/helper';
 
 export interface IAnimeState {
-  anime: Anime;
+  anime: AnimeWithEpisodes;
 }
 
 @Module({
@@ -15,26 +15,26 @@ export interface IAnimeState {
   namespaced: true,
 })
 class AnimeModule extends VuexModule implements IAnimeState {
-  public anime: Anime = {} as Anime;
+  public anime: AnimeWithEpisodes = {} as AnimeWithEpisodes;
 
   @Action({ commit: 'LOAD_ANIME', rawError: true })
   public async GetAnimeBySlug(slug: string) {
-    return (await Axios.get<Anime>(`anime/slug/${slug}`)).data;
+    return (await Axios.get<AnimeWithEpisodes>(`anime/slug/${slug}`)).data;
   }
 
   @Mutation
-  public LOAD_ANIME(anime: Anime) {
+  public LOAD_ANIME(anime: AnimeWithEpisodes) {
     this.anime = anime;
 
     // anime.startDate is string even though is defined as DateTime in Typescript.
-    this.anime.startDate = DateTime.fromISO(anime.startDate.toString());
+    this.anime.startDate = Helper.StringToDateTime(anime.startDate.toString());
 
     // The same for the episode.aired DateTimes.
     this.anime.episodes.forEach(
       (episode) =>
         episode.aired = episode.aired !== null
-        ? DateTime.fromISO(episode.aired.toString())
-        : episode.aired,
+          ? Helper.StringToDateTime(episode.aired.toString())
+          : episode.aired,
     );
   }
 

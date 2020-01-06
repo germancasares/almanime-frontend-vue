@@ -8,34 +8,35 @@
             <form class="box" @submit.prevent="register">
               <label class="label">Username</label>
               <p class="control">
-                <input v-model="registerForm.username" @keyup="checkUsername" class="input" type="text" placeholder="Luffy">
+                <input v-model="registerForm.username" @keyup="checkUsername" class="input" type="text" placeholder="Luffy" />
               </p>
               <p v-show="isUsernameVisible && isUsernameAvailable" class="help is-success">This username is available</p>
               <p v-show="isUsernameVisible && !isUsernameAvailable" class="help is-danger">This username is not available</p>
               <label class="label">Email</label>
               <p class="control">
-                <input v-model="registerForm.email" @keyup="checkEmail" class="input" type="text" placeholder="luffy@onepiece.com">
+                <input v-model="registerForm.email" @keyup="checkEmail" class="input" type="text" placeholder="luffy@onepiece.com" />
               </p>
               <p v-show="isEmailVisible && isEmailAvailable" class="help is-success">This email is available</p>
               <p v-show="isEmailVisible && !isEmailAvailable" class="help is-danger">This email is not available</p>
-              <hr>
+              <hr />
               <label class="label">Password</label>
               <p class="control">
-                <input v-model="registerForm.password" class="input" type="password" placeholder="●●●●●●●">
+                <input v-model="registerForm.password" class="input" type="password" placeholder="●●●●●●●" />
               </p>
               <label class="label">Confirm Password</label>
               <p class="control">
-                <input v-model="registerForm.confirmPassword" @keyup="passwordsMatch" class="input" type="password" placeholder="●●●●●●●">
+                <input v-model="registerForm.confirmPassword" @keyup="passwordsMatch" class="input" type="password" placeholder="●●●●●●●" />
               </p>
               <p v-show="!doPasswordsMatch" class="help is-danger">The passwords does not match</p>
-              <hr>
+              <hr />
               <p class="control">
                 <button class="button is-default">Cancel</button>
                 <button class="button is-primary is-pulled-right">Register</button>
               </p>
             </form>
             <p class="has-text-centered">
-              <router-link :to="{ name: 'login' }">Login</router-link> | <a href="#">Need help?</a>
+              <router-link :to="{ name: 'login' }">Login</router-link>|
+              <a href="#">Need help?</a>
             </p>
           </div>
         </div>
@@ -91,7 +92,8 @@ export default class Register extends Vue {
   }
 
   private passwordsMatch() {
-    this.doPasswordsMatch = this.registerForm.password === this.registerForm.confirmPassword;
+    this.doPasswordsMatch =
+      this.registerForm.password === this.registerForm.confirmPassword;
   }
 
   private async register() {
@@ -99,7 +101,10 @@ export default class Register extends Vue {
       .then(async (value) => {
         await UserModule.LoadUser();
 
-        Helper.Cookie.Create(Helper.Cookie.ACCOUNTSTATECOOKIE, this.accountState);
+        Helper.Cookie.Create(
+          Helper.Cookie.ACCOUNTSTATECOOKIE,
+          this.accountState,
+        );
 
         this.$router.push({ name: 'home' });
       })
@@ -116,10 +121,13 @@ export default class Register extends Vue {
       this.isEmailVisible = true;
     }
 
-    await Axios.head(`account/email/${email}`)
-    .then(
-      () => { this.isEmailAvailable = false; },
-      () => { this.isEmailAvailable = true; },
+    await Axios.head(`account/email/${email}`).then(
+      () => {
+        this.isEmailAvailable = false;
+      },
+      () => {
+        this.isEmailAvailable = true;
+      },
     );
     this.isEmailVisible = true;
   }
@@ -132,10 +140,13 @@ export default class Register extends Vue {
       this.isUsernameVisible = true;
     }
 
-    await Axios.head(`account/username/${username}`)
-    .then(
-      () => { this.isUsernameAvailable = false; },
-      () => { this.isUsernameAvailable = true; },
+    await Axios.head(`account/username/${username}`).then(
+      () => {
+        this.isUsernameAvailable = false;
+      },
+      () => {
+        this.isUsernameAvailable = true;
+      },
     );
     this.isUsernameVisible = true;
   }

@@ -1,19 +1,19 @@
 <template>
   <figure class="image is-clipped">
-    <img :src="cover">
+    <img :src="cover" />
   </figure>
 </template>
 
 <script lang="ts">
 import { Component, Vue, Prop } from 'vue-property-decorator';
-import { ImageCoverSize } from '@/enums';
+import { AnimeCoverSize } from '@/enums';
 
 @Component
 export default class Poster extends Vue {
   @Prop() private image!: URL;
 
-  get cover() {
-    return `${this.image}${ImageCoverSize.Small}`;
+  private get cover() {
+    return `${this.image}${AnimeCoverSize.Small}.jpg`;
   }
 }
 </script>

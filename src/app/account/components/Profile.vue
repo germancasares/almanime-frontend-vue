@@ -67,11 +67,11 @@ export default class Profile extends Vue {
     await UserModule.UpdateAvatar(this.avatar);
   }
 
-  get isAvatarEmpty() {
-   return !this.hasAvatar && this.avatarPreview === '';
+  private get isAvatarEmpty() {
+    return !this.hasAvatar && this.avatarPreview === '';
   }
 
-  get avatarImage() {
+  private get avatarImage() {
     if (this.avatarPreview !== '') {
       return this.avatarPreview;
     }
@@ -82,8 +82,8 @@ export default class Profile extends Vue {
 </script>
 
 <style lang='scss' scoped>
-.avatar  {
-  justify-content: center
+.avatar {
+  justify-content: center;
 }
 
 .file-upload {

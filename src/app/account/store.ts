@@ -2,9 +2,9 @@ import { DateTime } from 'luxon';
 import { VuexModule, Module, getModule, Action, Mutation, MutationAction } from 'vuex-module-decorators';
 import store from '@/store';
 import Axios from 'axios';
-import { Login, Register } from '@/models/account';
 import JwtDecode from 'jwt-decode';
 import Helper, { ICookie } from '@/utils/helper';
+import { User, Login, Register } from '@/models';
 
 // TODO: Change string[] to Set<string> once Vue gets to v3
 // https://github.com/vuejs/vue/issues/2410#issuecomment-434990853
@@ -47,7 +47,7 @@ class UserModule extends VuexModule implements IUserState {
 
   @MutationAction({ mutate: ['avatarUrl', 'bookmarks'] })
   public async LoadUser() {
-    const user = (await Axios.get('user/self')).data;
+    const user = (await Axios.get<User>('user/self')).data;
 
     const avatarUrl = user.avatarUrl == null ?
       process.env.VUE_APP_EMPTYURL :
@@ -65,21 +65,21 @@ class UserModule extends VuexModule implements IUserState {
     data.append('Avatar', avatar);
     await Axios.put('/User/self', data);
 
-    const avatarUrl = (await Axios.get('User/self')).data.avatarUrl;
+    const avatarUrl = (await Axios.get<User>('User/self')).data.avatarUrl;
 
     return {
       avatarUrl: new URL(`${avatarUrl}?${new Date().getTime()}`),
     };
   }
 
-  @Action({ commit: 'ADDBOOKMARK', rawError: true})
+  @Action({ commit: 'ADDBOOKMARK', rawError: true })
   public async AddBookmark(slug: string) {
     await Axios.post(`anime/slug/${slug}/bookmark`);
 
     return slug;
   }
 
-  @Action({ commit: 'REMOVEBOOKMARK', rawError: true})
+  @Action({ commit: 'REMOVEBOOKMARK', rawError: true })
   public async RemoveBookmark(slug: string) {
     await Axios.delete(`anime/slug/${slug}/bookmark`);
 
@@ -123,12 +123,12 @@ class UserModule extends VuexModule implements IUserState {
     };
   }
 
-  @Action({ commit: 'AUTHENTICATE', rawError: true})
+  @Action({ commit: 'AUTHENTICATE', rawError: true })
   public async Authenticate(login: Login) {
     return (await Axios.post('account/login', login)).data;
   }
 
-  @Action({ commit: 'AUTHENTICATE', rawError: true})
+  @Action({ commit: 'AUTHENTICATE', rawError: true })
   public async Register(register: Register) {
     return (await Axios.post('account/register', register)).data;
   }

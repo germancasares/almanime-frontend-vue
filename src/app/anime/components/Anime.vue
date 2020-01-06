@@ -20,7 +20,7 @@ import Hero from './Hero.vue';
 import Sidebar from './Sidebar.vue';
 import Crux from './Crux.vue';
 import { mapState } from 'vuex';
-import AnimeModule, { IAnimeState } from '@/app/anime/store';
+import AnimeModule from '@/app/anime/store';
 
 @Component({
   components: {
@@ -29,10 +29,13 @@ import AnimeModule, { IAnimeState } from '@/app/anime/store';
     Crux,
   },
   computed: mapState('Anime', ['anime']),
-  beforeRouteLeave: (to, from, next) => { AnimeModule.CleanAnime(); next(); },
+  beforeRouteLeave: (to, from, next) => {
+    AnimeModule.CleanAnime();
+    next();
+  },
 })
 export default class Anime extends Vue {
-  public async created() {
+  private async created() {
     if (this.$route.params.slug !== null) {
       await AnimeModule.GetAnimeBySlug(this.$route.params.slug).catch(alert);
     }

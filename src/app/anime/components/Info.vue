@@ -6,25 +6,25 @@
     <div>
       <ul>
         <li v-if="anime.episodes">
-          <strong class="has-text-primary has-text-weight-bold">Episodes: </strong>
+          <strong class="has-text-primary has-text-weight-bold">Episodes:</strong>
           <span>{{ anime.episodes.length }}</span>
         </li>
         <li>
-          <strong class="has-text-primary has-text-weight-bold">Status: </strong>
+          <strong class="has-text-primary has-text-weight-bold">Status:</strong>
           <span>{{ anime.status }}</span>
         </li>
         <li>
-          <strong class="has-text-primary has-text-weight-bold">Aired: </strong>
+          <strong class="has-text-primary has-text-weight-bold">Aired:</strong>
           <span>{{ anime.startDate | DateFull }}</span>
         </li>
         <li>
-          <strong class="has-text-primary has-text-weight-bold">Season: </strong>
+          <strong class="has-text-primary has-text-weight-bold">Season:</strong>
           <span>{{ anime.season }}</span>
         </li>
         <li class="links">
-          <strong class="has-text-primary has-text-weight-bold">Links: </strong>
+          <strong class="has-text-primary has-text-weight-bold">Links:</strong>
           <a :href="`https://kitsu.io/anime/${anime.slug}`" target="_blank">
-            <img class="kitsuLogo" :src="kitsuLogo">
+            <img class="kitsuLogo" :src="kitsuLogo" />
           </a>
         </li>
       </ul>
@@ -43,7 +43,7 @@ import { DateFull } from '@/utils/filter';
 export default class Info extends Vue {
   @Prop() private anime!: Anime;
 
-  get kitsuLogo() {
+  private get kitsuLogo() {
     return require('@/assets/kitsu.png');
   }
 }
@@ -74,8 +74,8 @@ export default class Info extends Vue {
     margin-top: -35px;
 
     .links {
-      display:flex;
-      align-items:center;
+      display: flex;
+      align-items: center;
 
       .kitsuLogo {
         height: 30px;

@@ -2,7 +2,7 @@
   <section>
     <div class="hero is-medium">
       <figure class="image">
-        <img id="hero" :src="poster">
+        <img id="hero" :src="poster" />
         <div class="overlay">
           <div></div>
         </div>
@@ -13,25 +13,28 @@
 
 <script lang="ts">
 import { Component, Vue, Prop } from 'vue-property-decorator';
-import { Season } from '@/enums';
-import { ImageCoverSize } from '@/enums';
+import { Season, AnimePosterSize } from '@/enums';
 
 @Component
 export default class Hero extends Vue {
   @Prop() private image!: URL;
   @Prop() private season!: Season;
 
-  get poster() {
+  private get poster() {
     if (this.image == null) {
       switch (this.season) {
-        case Season.Winter: return require('@/assets/seasons/Winter.jpg');
-        case Season.Spring: return require('@/assets/seasons/Spring.jpg');
-        case Season.Summer: return require('@/assets/seasons/Summer.jpg');
-        case Season.Fall: return require('@/assets/seasons/Fall.jpg');
+        case Season.Winter:
+          return require('@/assets/seasons/Winter.jpg');
+        case Season.Spring:
+          return require('@/assets/seasons/Spring.jpg');
+        case Season.Summer:
+          return require('@/assets/seasons/Summer.jpg');
+        case Season.Fall:
+          return require('@/assets/seasons/Fall.jpg');
       }
     }
 
-    return `${this.image}${ImageCoverSize.Small}`;
+    return `${this.image}${AnimePosterSize.Small}.jpg`;
   }
 }
 </script>

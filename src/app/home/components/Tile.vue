@@ -3,7 +3,7 @@
     <router-link :to="{ name: 'anime', params: { slug: slug } }">
       <div class="overlay"></div>
       <figure class="image is-16by9">
-        <img :src="cover">
+        <img :src="cover" />
       </figure>
       <div class="name">
         <h3>{{ name }}</h3>
@@ -24,7 +24,7 @@
 import { Component, Vue, Prop, Watch } from 'vue-property-decorator';
 import { mapState } from 'vuex';
 import UserModule, { IUserState } from '@/app/account/store';
-import { ImageCoverSize } from '@/enums';
+import { AnimeCoverSize } from '@/enums';
 
 @Component({
   computed: {
@@ -48,9 +48,11 @@ export default class Tile extends Vue {
   }
 
   get cover() {
-    if (this.image == null) { return this.defaultCover(); }
+    if (this.image == null) {
+      return this.defaultCover();
+    }
 
-    return `${this.image.toString()}${ImageCoverSize.Tiny}`;
+    return `${this.image.toString()}${AnimeCoverSize.Tiny}.jpg`;
   }
 
   private async addBookmark() {

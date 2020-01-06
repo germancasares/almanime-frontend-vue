@@ -7,43 +7,26 @@
           <p class="subtitle">Please login to proceed.</p>
           <div class="box">
             <figure class="avatar">
-              <img src="https://i.imgur.com/jitaYgk.png">
+              <img src="https://i.imgur.com/jitaYgk.png" />
             </figure>
             <form @submit.prevent="login">
-              <p
-              class="help is-danger"
-              v-bind:class="{ 'is-invisible': !isUnauthorized }"
-              >This credentials provided are incorrect</p>
+              <p class="help is-danger" v-bind:class="{ 'is-invisible': !isUnauthorized }">This credentials provided are incorrect</p>
 
               <div class="field">
                 <div class="control">
-                  <input
-                    class="input is-large"
-                    v-bind:class="{ 'is-danger': isUnauthorized }"
-                    v-model="loginForm.identifier"
-                    placeholder="Username or Email"
-                    autofocus
-                    required
-                  >
+                  <input class="input is-large" v-bind:class="{ 'is-danger': isUnauthorized }" v-model="loginForm.identifier" placeholder="Username or Email" autofocus required />
                 </div>
               </div>
 
               <div class="field">
                 <div class="control">
-                  <input
-                    class="input is-large"
-                    v-bind:class="{ 'is-danger': isUnauthorized }"
-                    type="password"
-                    v-model="loginForm.password"
-                    placeholder="Your Password"
-                    required
-                  >
+                  <input class="input is-large" v-bind:class="{ 'is-danger': isUnauthorized }" type="password" v-model="loginForm.password" placeholder="Your Password" required />
                 </div>
               </div>
 
               <div class="field">
                 <label class="checkbox">
-                  <input type="checkbox" v-model="beRemembered">Remember me
+                  <input type="checkbox" v-model="beRemembered" />Remember me
                 </label>
               </div>
 
@@ -98,7 +81,6 @@ export default class Login extends Vue {
 
     await UserModule.Authenticate(this.loginForm)
       .then(async (value) => {
-
         await UserModule.LoadUser();
 
         if (this.beRemembered) {
