@@ -8,6 +8,7 @@ const ACCOUNTSTATECOOKIE = 'accountState';
 export default {
   Chunk,
   GetSeason,
+  StringToDateTime,
   Cookie: {
     GetAccountState,
     Create,
@@ -26,13 +27,13 @@ function GetSeason(month: number): Season {
   switch (true) {
     case month === 12 || month <= 2:
       return Season.Winter;
-  case month >= 3 && month <= 5:
+    case month >= 3 && month <= 5:
       return Season.Spring;
-  case month >= 6 && month <= 8:
+    case month >= 6 && month <= 8:
       return Season.Summer;
-  case month >= 9 && month <= 11:
+    case month >= 9 && month <= 11:
       return Season.Fall;
-  default: throw new RangeError('Month out of valid range.');
+    default: throw new RangeError('Month out of valid range.');
   }
 }
 
@@ -79,6 +80,10 @@ function GetAccountState(): IAccountState | null {
   return {
     username: cookie.username,
     token: cookie.token,
-    expiration: DateTime.fromISO(cookie.expiration),
+    expiration: StringToDateTime(cookie.expiration),
   };
+}
+
+function StringToDateTime(date: string): DateTime {
+  return DateTime.fromISO(date, { zone: 'utc' });
 }
