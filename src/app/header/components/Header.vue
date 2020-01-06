@@ -3,12 +3,7 @@
     <div class="container">
       <div class="navbar-brand">
         <router-link :to="{ name: 'home' }" class="navbar-item">
-          <img
-            src="https://bulma.io/images/bulma-logo.png"
-            alt="Almanime: subtitles for all"
-            width="112"
-            height="28"
-          />
+          <img src="https://bulma.io/images/bulma-logo.png" alt="Almanime: subtitles for all" width="112" height="28" />
         </router-link>
 
         <div class="navbar-burger">
