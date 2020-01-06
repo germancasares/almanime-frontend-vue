@@ -3,7 +3,7 @@
     <section class="section">
       <div>
         <h1 class="title">Current Season</h1>
-        <hr>
+        <hr />
         <div class="tile is-ancestor" v-for="animesChunk in currentSeasonAsChunks" :key="animesChunk.id">
           <div class="tile is-parent has-image is-3" v-for="anime in animesChunk" :key="anime.id">
             <tile :slug="anime.slug" :name="anime.name" :image="anime.coverImage"></tile>
@@ -29,7 +29,7 @@ import { Anime } from '@/models';
 export default class Home extends Vue {
   private currentSeason!: Anime[];
 
-  public async created() {
+  private async created() {
     if (!this.currentSeason.length) {
       await HomeModule.GetCurrentSeason().catch(alert);
     }
