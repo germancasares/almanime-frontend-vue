@@ -1,7 +1,7 @@
 <template>
   <aside>
-    <poster :image="anime.posterImage"></poster>
-    <info :anime="anime"></info>
+    <Poster :image="anime.posterImage"></Poster>
+    <Info :anime="anime"></Info>
   </aside>
 </template>
 
@@ -9,11 +9,11 @@
 import { Component, Vue, Prop } from 'vue-property-decorator';
 import { Anime } from '@/models';
 
-import poster from './Poster.vue';
-import info from './Info.vue';
+import Poster from './Poster.vue';
+import Info from './Info.vue';
 
 @Component({
-  components: { poster, info },
+  components: { Poster, Info },
 })
 export default class Sidebar extends Vue {
   @Prop() private anime!: Anime;
