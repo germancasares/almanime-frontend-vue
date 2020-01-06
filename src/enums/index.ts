@@ -1,4 +1,7 @@
-export { default as Season } from './season';
-export { default as Status } from './status';
-export { ImageCoverSize } from './imagecoversize';
-export { ImagePosterSize } from './imagepostersize';
+export { AnimeCoverSize } from './animeCoverSize';
+export { AnimePosterSize } from './animePosterSize';
+export { AnimeStatus } from './animeStatus';
+export { FansubRole } from './fansubRole';
+export { Season } from './season';
+export { SubtitleFormat } from './subtitleFormat';
+export { SubtitleStatus } from './subtitleStatus';
