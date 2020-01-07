@@ -4,7 +4,7 @@ import { SubtitleStatus } from '@/enums';
 
 export { DateFull, DateTimeFull, FinishedRecount };
 
-const DateFull = (date: DateTime): string => date.toLocaleString(DateTime.DATE_FULL);
+const DateFull = (date: DateTime): string => date == null ? '' : date.toLocaleString(DateTime.DATE_FULL);
 
 const DateTimeFull = (date: DateTime): string => date.toLocaleString(DateTime.DATETIME_FULL);
 
