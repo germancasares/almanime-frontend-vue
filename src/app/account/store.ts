@@ -43,6 +43,22 @@ class UserModule extends VuexModule implements IUserState {
   public avatarUrl: URL = new URL(process.env.VUE_APP_EMPTYURL);
   public bookmarks: string[] = [];
 
+  // #region Getters
+
+  get hasAvatar() {
+    return this.avatarUrl.href !== undefined && this.avatarUrl.href !== process.env.VUE_APP_EMPTYURL;
+  }
+
+  get username() {
+    return this.account.username;
+  }
+
+  get isAuthenticated() {
+    return !!this.account.token;
+  }
+
+  // #endregion
+
   // #region User
 
   @MutationAction({ mutate: ['avatarUrl', 'bookmarks'] })

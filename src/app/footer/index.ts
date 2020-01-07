@@ -1,1 +1,1 @@
-export { Footer } from './components';
+export { default as Footer } from './components/Footer.vue';

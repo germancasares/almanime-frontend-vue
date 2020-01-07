@@ -45,7 +45,7 @@
             </div>
           </div>
 
-          <div class="navbar-item has-dropdown is-hoverable" v-if="isAuthenticated">
+          <div class="navbar-item has-dropdown is-hoverable" v-if="this.isAuthenticated">
             <div class="navbar-link">
               <div v-if="this.isAuthenticated" class="avatar">
                 <Avatar v-if="this.hasAvatar" :size="30" :src="`${this.avatarUrl}`"></Avatar>
@@ -81,21 +81,17 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import { mapState } from 'vuex';
+import { mapState, mapGetters } from 'vuex';
 import UserModule, { IUserState } from '@/app/account/store';
 
 const Avatar = require('vue-avatar').Avatar;
 
 @Component({
   components: { Avatar },
-  computed: mapState<IUserState, any>('User', {
-    avatarUrl: 'avatarUrl',
-    username: (state: IUserState) => state.account.username,
-    isAuthenticated: (state: IUserState) => !!state.account.token,
-    hasAvatar: (state: IUserState) =>
-      state.avatarUrl.href !== undefined &&
-      state.avatarUrl.href !== process.env.VUE_APP_EMPTYURL,
-  }),
+  computed: {
+    ...mapState('User', ['avatarUrl']),
+    ...mapGetters('User', ['username', 'isAuthenticated', 'hasAvatar']),
+  },
 })
 export default class Header extends Vue {
   private logout() {

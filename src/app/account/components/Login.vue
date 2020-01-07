@@ -53,7 +53,6 @@ import Helper from '@/utils/helper';
 
 @Component({
   computed: mapState<IUserState, any>('User', {
-    isAuthenticated: (state: IUserState) => !!state.account.token,
     account: 'account',
   }),
 })
@@ -67,14 +66,6 @@ export default class Login extends Vue {
   private isUnauthorized = false;
 
   private account!: IAccountState;
-  private isAuthenticated!: boolean;
-
-  @Watch('isAuthenticated')
-  private redirectIfLogged() {
-    if (this.isAuthenticated) {
-      this.$router.push({ name: 'home' });
-    }
-  }
 
   private async login() {
     this.isUnauthorized = false;

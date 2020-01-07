@@ -19,17 +19,23 @@ Vue.config.productionTip = false;
 Vue.use(Buefy);
 
 // Check if route needs to be authorized
-router.beforeEach((to, from, next) => {
-  if (to.matched.some((record) => record.meta.requiresAuth)) {
-    // this route requires auth, check if logged in
-    // if not, redirect to login page.
-    if (!store.state.User.account.token) {
-      next({ name: 'login' });
+router.beforeEach(async (to, _, next) => {
+  const requiresAuth = to.matched.some((record) => record.meta.requiresAuth);
+  const isLogged = !!store.state.User.account.token;
+
+  if (requiresAuth) {
+    if (isLogged) {
+      next();
     } else {
-      next(); // go to wherever I'm going
+      next({ name: 'login' });
     }
   } else {
-    next(); // does not require auth, make sure to always call next()!
+    const isLoginOrRegister = to.name === 'login' || to.name === 'register';
+    if (isLoginOrRegister && isLogged) {
+      next({ name: 'home' });
+    } else {
+      next();
+    }
   }
 });
 

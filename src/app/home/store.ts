@@ -1,11 +1,19 @@
-import { Module, VuexModule, Mutation, Action, getModule } from 'vuex-module-decorators';
+import { Module, VuexModule, Mutation, Action, getModule, MutationAction } from 'vuex-module-decorators';
 import Axios from 'axios';
 import Helper from '@/utils/helper';
 import store from '@/store';
-import { Anime } from '@/models';
+import { Anime, PaginationMeta, AnimeSeasonPage } from '@/models';
 
 export interface IHomeState {
-  currentSeason: Anime[];
+  animes: Anime[];
+  paginationMeta: PaginationMeta;
+  pagination: Pagination;
+}
+
+export interface Pagination {
+  current: number;
+  isLoading: boolean;
+  pageSize: number;
 }
 
 @Module({
@@ -15,20 +23,33 @@ export interface IHomeState {
   namespaced: true,
 })
 class HomeModule extends VuexModule implements IHomeState {
-  public currentSeason: Anime[] = [];
+  public animes = [] as Anime[];
+  public paginationMeta = {} as PaginationMeta;
+  public pagination = {} as Pagination;
+
+  @MutationAction({ mutate: ['pagination'] })
+  public async UpdatePagination(pagination: Pagination) {
+    return {
+      pagination,
+    };
+  }
 
   @Action({ commit: 'LOAD_CURRENT_SEASON', rawError: true })
-  public async GetCurrentSeason() {
+  public async GetAnimeSeasonPage(payload: { page: number, includeMeta?: boolean }) {
     const now = new Date(Date.now());
     const year = now.getFullYear();
     const season = Helper.GetSeason(now.getMonth());
 
-    return (await Axios.get<Anime[]>(`anime/year/${year}/season/${season}`)).data;
+    return (await Axios.get<AnimeSeasonPage>(`anime/year/${year}/season/${season}?page=${payload.page}&includeMeta=${payload.includeMeta ?? false}`)).data;
   }
 
   @Mutation
-  public LOAD_CURRENT_SEASON(animes: Anime[]) {
-    this.currentSeason = animes;
+  public LOAD_CURRENT_SEASON(animeSeasonPage: AnimeSeasonPage) {
+    this.animes = animeSeasonPage.animes;
+
+    if (animeSeasonPage.meta != null) {
+      this.paginationMeta = animeSeasonPage.meta;
+    }
   }
 }
 
