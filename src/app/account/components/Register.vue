@@ -47,7 +47,7 @@
 
 <script lang="ts">
 import { Component, Vue, Prop } from 'vue-property-decorator';
-import { mapState } from 'vuex';
+import { mapState, mapGetters } from 'vuex';
 import UserModule, { IUserState, IAccountState } from '@/app/account/store';
 import { Register as RegisterForm } from '@/models/account';
 import Axios from 'axios';
@@ -61,10 +61,10 @@ enum ErrorCode {
 }
 
 @Component({
-  computed: mapState<IUserState, any>('User', {
-    isAuthenticated: (state: IUserState) => !!state.account.token,
-    accountState: 'account',
-  }),
+  computed: {
+    ...mapState('User', ['account']),
+    ...mapGetters('User', ['isAuthenticated']),
+  }
 })
 export default class Register extends Vue {
   private registerForm = {
@@ -74,7 +74,7 @@ export default class Register extends Vue {
     confirmPassword: '',
   } as RegisterForm;
 
-  private accountState!: IAccountState;
+  private account!: IAccountState;
   private isAuthenticated!: boolean;
 
   private isUsernameVisible = false;
@@ -103,7 +103,7 @@ export default class Register extends Vue {
 
         Helper.Cookie.Create(
           Helper.Cookie.ACCOUNTSTATECOOKIE,
-          this.accountState,
+          this.account,
         );
 
         this.$router.push({ name: 'home' });

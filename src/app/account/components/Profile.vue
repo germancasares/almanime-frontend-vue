@@ -28,25 +28,21 @@
 <script lang="ts">
 import { Component, Vue, Prop, Watch } from 'vue-property-decorator';
 import UserModule, { IUserState } from '@/app/account/store';
-import { mapState } from 'vuex';
+import { mapState, mapGetters } from 'vuex';
 import Helper from '@/utils/helper';
 
 const Avatar = require('vue-avatar').Avatar;
 
 @Component({
   components: { Avatar },
-  computed: mapState<IUserState, any>('User', {
-    avatarUrl: 'avatarUrl',
-    username: 'username',
-    hasAvatar: (state: IUserState) =>
-      state.avatarUrl.href !== undefined &&
-      state.avatarUrl.href !== process.env.VUE_APP_EMPTYURL,
-  }),
+  computed: {
+    ...mapState('User', ['avatarUrl']),
+    ...mapGetters('User', ['username', 'hasAvatar']),
+  },
 })
 export default class Profile extends Vue {
   private avatar: File = new File([''], '');
   private avatarUrl!: URL;
-  private username!: string;
   private hasAvatar!: boolean;
   private avatarPreview = '';
 
