@@ -9,6 +9,7 @@ export default {
   Chunk,
   GetSeason,
   StringToDateTime,
+  IsObjectEmpty,
   Cookie: {
     GetAccountState,
     Create,
@@ -86,4 +87,8 @@ function GetAccountState(): IAccountState | null {
 
 function StringToDateTime(date: string): DateTime {
   return DateTime.fromISO(date, { zone: 'utc' });
+}
+
+function IsObjectEmpty(object: object) {
+  return Object.entries(object).length === 0 && object.constructor === Object;
 }
