@@ -45,11 +45,11 @@
             </div>
           </div>
 
-          <div class="navbar-item has-dropdown is-hoverable" v-if="this.isAuthenticated">
+          <div class="navbar-item has-dropdown is-hoverable" v-if="isAuthenticated">
             <div class="navbar-link">
-              <div v-if="this.isAuthenticated" class="avatar">
-                <Avatar v-if="this.hasAvatar" :size="30" :src="`${this.avatarUrl}`"></Avatar>
-                <Avatar v-else color="black" :size="30" :username="`${this.username}`"></Avatar>
+              <div v-if="isAuthenticated" class="avatar">
+                <Avatar v-if="hasAvatar" :size="30" :src="`${avatarUrl}`"></Avatar>
+                <Avatar v-else color="black" :size="30" :username="`${username}`"></Avatar>
               </div>
               {{ username }}
             </div>

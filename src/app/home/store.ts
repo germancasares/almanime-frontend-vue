@@ -40,7 +40,7 @@ class HomeModule extends VuexModule implements IHomeState {
     const year = now.getFullYear();
     const season = Helper.GetSeason(now.getMonth());
 
-    return (await Axios.get<AnimeSeasonPage>(`anime/year/${year}/season/${season}?page=${payload.page}&includeMeta=${payload.includeMeta ?? false}`)).data;
+    return (await Axios.get<AnimeSeasonPage>(`anime/year/${2018}/season/${season}?page=${payload.page}&includeMeta=${payload.includeMeta ?? false}`)).data;
   }
 
   @Mutation

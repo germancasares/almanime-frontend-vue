@@ -8,11 +8,11 @@
       <div class="name">
         <h3>{{ name }}</h3>
       </div>
-      <div class="bookmark" v-if="this.isAuthenticated">
-        <div v-if="this.isBookmarked" @click.prevent="this.unBookmark">
+      <div class="bookmark" v-if="isAuthenticated">
+        <div v-if="isBookmarked" @click.prevent="unBookmark">
           <b-icon icon="star"></b-icon>
         </div>
-        <div v-else @click.prevent="this.addBookmark">
+        <div v-else @click.prevent="addBookmark">
           <b-icon icon="star-outline"></b-icon>
         </div>
       </div>

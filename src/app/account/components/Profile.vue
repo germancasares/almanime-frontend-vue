@@ -6,8 +6,8 @@
       </div>
       <form @submit.prevent="save">
         <div class="avatar is-flex">
-          <Avatar v-if="this.isAvatarEmpty" color="black" :size="200" :username="`${this.username}`"></Avatar>
-          <Avatar v-else :size="200" :src="`${this.avatarImage}`"></Avatar>
+          <Avatar v-if="isAvatarEmpty" color="black" :size="200" :username="`${username}`"></Avatar>
+          <Avatar v-else :size="200" :src="`${avatarImage}`"></Avatar>
         </div>
         <div class="file-upload is-flex">
           <b-field class="file">
