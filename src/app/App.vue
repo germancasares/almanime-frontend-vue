@@ -26,7 +26,7 @@ export default class App extends Vue {
     if (accountState !== null) {
       await UserModule.LoadState(accountState);
       await UserModule.LoadUser();
-      const isLoginOrRegister = this.$route.name == 'login' || this.$route.name == 'register';
+      const isLoginOrRegister = this.$route.name === 'login' || this.$route.name === 'register';
       if (isLoginOrRegister) {
         this.$router.push({ name: 'home' });
       }

@@ -21,7 +21,7 @@ Vue.use(Buefy);
 // Check if route needs to be authorized
 router.beforeEach(async (to, _, next) => {
   const requiresAuth = to.matched.some((record) => record.meta.requiresAuth);
-  const isLogged = !!store.state.User.account.token
+  const isLogged = !!store.state.User.account.token;
 
   if (requiresAuth) {
     if (isLogged) {
@@ -30,7 +30,7 @@ router.beforeEach(async (to, _, next) => {
       next({ name: 'login' });
     }
   } else {
-    const isLoginOrRegister = to.name == 'login' || to.name == 'register';
+    const isLoginOrRegister = to.name === 'login' || to.name === 'register';
     if (isLoginOrRegister && isLogged) {
       next({ name: 'home' });
     } else {

@@ -91,7 +91,7 @@ const Avatar = require('vue-avatar').Avatar;
   computed: {
     ...mapState('User', ['avatarUrl']),
     ...mapGetters('User', ['username', 'isAuthenticated', 'hasAvatar']),
-  }
+  },
 })
 export default class Header extends Vue {
   private logout() {

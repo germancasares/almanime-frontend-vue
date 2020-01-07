@@ -64,7 +64,7 @@ enum ErrorCode {
   computed: {
     ...mapState('User', ['account']),
     ...mapGetters('User', ['isAuthenticated']),
-  }
+  },
 })
 export default class Register extends Vue {
   private registerForm = {
