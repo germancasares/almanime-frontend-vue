@@ -10,10 +10,14 @@ import Buefy from 'buefy';
 
 // Backend Calls
 import Axios from 'axios';
-Axios.defaults.baseURL = process.env.VUE_APP_APIBASEURL;
 
+// PWA
 import './registerServiceWorker';
 
+// Helpers
+import helper from './utils/helper';
+
+Axios.defaults.baseURL = process.env.VUE_APP_APIBASEURL;
 Vue.config.productionTip = false;
 
 Vue.use(Buefy);
@@ -21,8 +25,7 @@ Vue.use(Buefy);
 // Check if route needs to be authorized
 router.beforeEach(async (to, _, next) => {
   const requiresAuth = to.matched.some((record) => record.meta.requiresAuth);
-  const isLogged = !!store.state.User.account.token;
-
+  const isLogged = !!helper.Cookie.GetAccountState()?.token;
   if (requiresAuth) {
     if (isLogged) {
       next();
