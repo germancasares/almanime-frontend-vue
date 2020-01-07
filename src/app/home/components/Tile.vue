@@ -8,11 +8,11 @@
       <div class="name">
         <h3>{{ name }}</h3>
       </div>
-      <div class="bookmark" v-if="isAuthenticated">
-        <div v-if="isBookmarked" @click.prevent="unBookmark">
+      <div class="bookmark" v-if="this.isAuthenticated">
+        <div v-if="this.isBookmarked" @click.prevent="this.unBookmark">
           <b-icon icon="star"></b-icon>
         </div>
-        <div v-else @click.prevent="addBookmark">
+        <div v-else @click.prevent="this.addBookmark">
           <b-icon icon="star-outline"></b-icon>
         </div>
       </div>
@@ -22,16 +22,14 @@
 
 <script lang="ts">
 import { Component, Vue, Prop, Watch } from 'vue-property-decorator';
-import { mapState } from 'vuex';
+import { mapState, mapGetters } from 'vuex';
 import UserModule, { IUserState } from '@/app/account/store';
 import { AnimeCoverSize } from '@/enums';
 
 @Component({
   computed: {
-    ...mapState<IUserState, any>('User', {
-      isAuthenticated: (state: IUserState) => !!state.account.token,
-      bookmarks: 'bookmarks',
-    }),
+    ...mapState('User', ['bookmarks']),
+    ...mapGetters('User', ['isAuthenticated']),
     isBookmarked(this: Tile) {
       return this.bookmarks.includes(this.slug);
     },
