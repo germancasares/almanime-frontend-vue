@@ -11,8 +11,11 @@
         </div>
         <div class="file-upload is-flex">
           <b-field class="file">
-            <b-upload v-model="avatar">
-              <b-button class="is-info" size="is-medium" icon-left="upload">Click to upload</b-button>
+            <b-upload v-model="avatar" @input="onAvatarChanged">
+              <a class="button is-info is-medium">
+                <b-icon icon="upload" size="is-small"></b-icon>
+                <span>Click to upload</span>
+              </a>
             </b-upload>
             <span class="file-name" v-if="avatar.size > 0">{{ avatar.name }}</span>
           </b-field>
@@ -46,7 +49,6 @@ export default class Profile extends Vue {
   private hasAvatar!: boolean;
   private avatarPreview = '';
 
-  @Watch('avatar')
   private onAvatarChanged(file: File) {
     const reader = new FileReader();
     reader.onload = (event) => {
