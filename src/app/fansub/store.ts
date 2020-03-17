@@ -2,7 +2,6 @@ import { VuexModule, Module, MutationAction, getModule } from 'vuex-module-decor
 import store from '@/store';
 import Axios from 'axios';
 import { Fansub, AnimeWithEpisodesAndSubtitle, EpisodeWithSubtitle } from '@/models';
-import { DateTime } from 'luxon';
 import Helper from '@/utils/helper';
 
 export interface IFansubState {
