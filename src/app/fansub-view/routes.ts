@@ -1,11 +1,11 @@
 import { RouteConfig } from 'vue-router';
-import { Fansub } from './components';
+import { FansubView } from './components';
 
 const routes: RouteConfig[] = [
   {
     path: '/fansub/:acronym',
-    name: 'fansub',
-    component: Fansub,
+    name: 'fansub-view',
+    component: FansubView,
   },
 ];
 

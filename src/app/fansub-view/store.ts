@@ -5,18 +5,18 @@ import { Fansub, AnimeWithEpisodesAndSubtitle, EpisodeWithSubtitle } from '@/mod
 import { DateTime } from 'luxon';
 import Helper from '@/utils/helper';
 
-export interface IFansubState {
+export interface IFansubViewState {
   fansub: Fansub;
   animes: AnimeWithEpisodesAndSubtitle[];
 }
 
 @Module({
-  name: 'Fansub',
+  name: 'FansubView',
   store,
   dynamic: true,
   namespaced: true,
 })
-class FansubModule extends VuexModule implements IFansubState {
+class FansubViewModule extends VuexModule implements IFansubViewState {
   public fansub: Fansub = {} as Fansub;
   public animes: AnimeWithEpisodesAndSubtitle[] = [];
 
@@ -54,4 +54,4 @@ class FansubModule extends VuexModule implements IFansubState {
   }
 }
 
-export default getModule(FansubModule);
+export default getModule(FansubViewModule);

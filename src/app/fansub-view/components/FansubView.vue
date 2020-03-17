@@ -30,7 +30,7 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import FansubModule from '@/app/fansub/store';
+import FansubViewModule from '@/app/fansub-view/store';
 import { mapState } from 'vuex';
 import { AnimeWithEpisodesAndSubtitle } from '@/models';
 import { SubtitleStatus } from '@/enums';
@@ -38,17 +38,17 @@ import { FinishedRecount, DateTimeFull } from '@/utils/filter';
 
 @Component({
   filters: { FinishedRecount, DateTimeFull },
-  computed: mapState('Fansub', ['fansub', 'animes']),
+  computed: mapState('FansubView', ['fansub', 'animes']),
   beforeRouteLeave: (to, from, next) => {
-    FansubModule.CleanFansub();
+    FansubViewModule.CleanFansub();
     next();
   },
 })
-export default class Fansub extends Vue {
+export default class FansubView extends Vue {
   private async created() {
     if (this.$route.params.acronym !== null) {
-      await FansubModule.LoadFansub(this.$route.params.acronym);
-      await FansubModule.LoadAnimes(this.$route.params.acronym);
+      await FansubViewModule.LoadFansub(this.$route.params.acronym);
+      await FansubViewModule.LoadAnimes(this.$route.params.acronym);
     }
   }
 }
