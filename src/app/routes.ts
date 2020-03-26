@@ -8,8 +8,8 @@ import { routes as fansubNew } from './fansub-new';
 export default [
     ...home, 
     ...anime, 
-    ...account, 
+    ...account,
+    ...fansubNew,
     ...fansubView, 
     ...fansubList, 
-    ...fansubNew,
 ];
