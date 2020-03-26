@@ -6,7 +6,7 @@ export { AnimeWithEpisodesAndSubtitle } from './animeWithEpisodesAndSubtitle';
 export { Bookmark } from './bookmark';
 export { Episode } from './episode';
 export { EpisodeWithSubtitle } from './episodeWithSubtitle';
-export { Fansub } from './fansub';
+export { Fansub, FansubNew } from './fansub';
 export { Subtitle } from './subtitle';
 export { User } from './user';
 export { PaginationMeta } from './paginationMeta';
