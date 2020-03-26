@@ -1,8 +1,8 @@
 import { Module, VuexModule, Mutation, Action, getModule, MutationAction } from 'vuex-module-decorators';
-import Axios from 'axios';
 import Helper from '@/utils/helper';
 import store from '@/store';
 import { Anime, PaginationMeta, AnimeSeasonPage } from '@/models';
+import { AnimeService } from '@/services';
 
 export interface IHomeState {
   animes: Anime[];
@@ -40,7 +40,7 @@ class HomeModule extends VuexModule implements IHomeState {
     const year = now.getFullYear();
     const season = Helper.GetSeason(now.getMonth());
 
-    return (await Axios.get<AnimeSeasonPage>(`anime/year/${2018}/season/${season}?page=${payload.page}&includeMeta=${payload.includeMeta ?? false}`)).data;
+    return await AnimeService.GetSeason(year, season, payload.page, payload.includeMeta);
   }
 
   @Mutation
