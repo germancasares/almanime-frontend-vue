@@ -1,10 +1,10 @@
 import { DateTime } from 'luxon';
 import { VuexModule, Module, getModule, Action, Mutation, MutationAction } from 'vuex-module-decorators';
 import store from '@/store';
-import Axios from 'axios';
 import JwtDecode from 'jwt-decode';
 import Helper, { ICookie } from '@/utils/helper';
-import { User, Login, Register } from '@/models';
+import { Login, Register } from '@/models';
+import { AccountService, AnimeService, UserService } from '@/services';
 
 // TODO: Change string[] to Set<string> once Vue gets to v3
 // https://github.com/vuejs/vue/issues/2410#issuecomment-434990853
@@ -27,14 +27,6 @@ export interface IAccountState extends ICookie {
   namespaced: true,
 })
 class UserModule extends VuexModule implements IUserState {
-  private static setToken(token: string) {
-    Axios.defaults.headers.common.Authorization = `Bearer ${token}`;
-  }
-
-  private static removeToken() {
-    Axios.defaults.headers.common.Authorization = null;
-  }
-
   public account: IAccountState = {
     username: '',
     token: '',
@@ -63,7 +55,7 @@ class UserModule extends VuexModule implements IUserState {
 
   @MutationAction({ mutate: ['avatarUrl', 'bookmarks'] })
   public async LoadUser() {
-    const user = (await Axios.get<User>('user/self')).data;
+    const user = await UserService.Get();
 
     const avatarUrl = user.avatarUrl == null ?
       process.env.VUE_APP_EMPTYURL :
@@ -77,11 +69,7 @@ class UserModule extends VuexModule implements IUserState {
 
   @MutationAction({ mutate: ['avatarUrl'] })
   public async UpdateAvatar(avatar: File) {
-    const data = new FormData();
-    data.append('Avatar', avatar);
-    await Axios.put('/User/self', data);
-
-    const avatarUrl = (await Axios.get<User>('User/self')).data.avatarUrl;
+    const avatarUrl = (await UserService.Update(avatar)).avatarUrl;
 
     return {
       avatarUrl: new URL(`${avatarUrl}?${new Date().getTime()}`),
@@ -90,14 +78,14 @@ class UserModule extends VuexModule implements IUserState {
 
   @Action({ commit: 'ADDBOOKMARK', rawError: true })
   public async AddBookmark(slug: string) {
-    await Axios.post(`anime/slug/${slug}/bookmark`);
+    await AnimeService.CreateBoookmark(slug);
 
     return slug;
   }
 
   @Action({ commit: 'REMOVEBOOKMARK', rawError: true })
   public async RemoveBookmark(slug: string) {
-    await Axios.delete(`anime/slug/${slug}/bookmark`);
+    await AnimeService.DeleteBoookmark(slug);
 
     return slug;
   }
@@ -118,7 +106,7 @@ class UserModule extends VuexModule implements IUserState {
 
   @MutationAction({ mutate: ['account'] })
   public async LoadState(state: IAccountState) {
-    UserModule.setToken(state.token);
+    AccountService.SetToken(state.token);
 
     return {
       account: state,
@@ -128,7 +116,7 @@ class UserModule extends VuexModule implements IUserState {
   @MutationAction({ mutate: ['account'] })
   public async Logout() {
     Helper.Cookie.Delete(Helper.Cookie.ACCOUNTSTATECOOKIE);
-    UserModule.removeToken();
+    AccountService.RemoveToken();
 
     return {
       account: {
@@ -141,17 +129,17 @@ class UserModule extends VuexModule implements IUserState {
 
   @Action({ commit: 'AUTHENTICATE', rawError: true })
   public async Authenticate(login: Login) {
-    return (await Axios.post('account/login', login)).data;
+    return await AccountService.Login(login);
   }
 
   @Action({ commit: 'AUTHENTICATE', rawError: true })
   public async Register(register: Register) {
-    return (await Axios.post('account/register', register)).data;
+    return await AccountService.Register(register);
   }
 
   @Mutation
   public AUTHENTICATE(token: string) {
-    UserModule.setToken(token);
+    AccountService.SetToken(token);
     this.account.token = token;
 
     const decodedToken = JwtDecode<TokenDto>(token);
