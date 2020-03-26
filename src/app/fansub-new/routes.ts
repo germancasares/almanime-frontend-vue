@@ -6,6 +6,9 @@ const routes: RouteConfig[] = [
     path: '/fansubs/new',
     name: 'fansub-new',
     component: FansubNew,
+    meta: {
+      requiresAuth: true,
+    },
   },
 ];
 
