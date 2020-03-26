@@ -3,7 +3,7 @@ import { FansubView } from './components';
 
 const routes: RouteConfig[] = [
   {
-    path: '/fansub/:acronym',
+    path: '/fansubs/:acronym',
     name: 'fansub-view',
     component: FansubView,
   },
