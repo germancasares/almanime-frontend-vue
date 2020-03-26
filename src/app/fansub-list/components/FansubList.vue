@@ -1,6 +1,6 @@
 <template>
   <main class="container">
-
+    <router-link :to="{ name: 'fansub-new' }">Create new fansub</router-link>|
   </main>
 </template>
 
