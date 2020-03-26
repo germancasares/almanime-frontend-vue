@@ -1,9 +1,8 @@
 import { VuexModule, Module, MutationAction, getModule } from 'vuex-module-decorators';
 import store from '@/store';
-import Axios from 'axios';
-import { Fansub, AnimeWithEpisodesAndSubtitle, EpisodeWithSubtitle } from '@/models';
-import { DateTime } from 'luxon';
-import Helper from '@/utils/helper';
+import { Fansub, AnimeWithEpisodesAndSubtitle } from '@/models';
+
+import { FansubService } from '@/services';
 
 export interface IFansubViewState {
   fansub: Fansub;
@@ -22,27 +21,15 @@ class FansubViewModule extends VuexModule implements IFansubViewState {
 
   @MutationAction({ mutate: ['fansub'] })
   public async LoadFansub(acronym: string) {
-    const fansub = (await Axios.get<Fansub>(`fansub/${acronym}`)).data;
-
     return {
-      fansub,
+      fansub: await FansubService.Get(acronym),
     };
   }
 
   @MutationAction({ mutate: ['animes'] })
   public async LoadAnimes(acronym: string) {
-    const animes = (await Axios.get<AnimeWithEpisodesAndSubtitle[]>(`fansub/${acronym}/animes`)).data;
-
-    animes.forEach(
-      (a: AnimeWithEpisodesAndSubtitle) =>
-        a.episodes.forEach(
-          (e: EpisodeWithSubtitle) =>
-            e.subtitle.modificationDate = Helper.StringToDateTime(e.subtitle.modificationDate.toString()).toLocal(),
-        ),
-    );
-
     return {
-      animes,
+      animes: await FansubService.GetAnimes(acronym),
     };
   }
 
