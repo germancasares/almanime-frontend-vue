@@ -1,19 +1,13 @@
 import { Module, VuexModule, Mutation, Action, getModule, MutationAction } from 'vuex-module-decorators';
 import Helper from '@/utils/helper';
 import store from '@/store';
-import { Anime, PaginationMeta, AnimeSeasonPage } from '@/models';
+import { Anime, PaginationMeta, ModelWithMeta, Pagination } from '@/models';
 import { AnimeService } from '@/services';
 
 export interface IHomeState {
   animes: Anime[];
   paginationMeta: PaginationMeta;
   pagination: Pagination;
-}
-
-export interface Pagination {
-  current: number;
-  isLoading: boolean;
-  pageSize: number;
 }
 
 @Module({
@@ -44,8 +38,8 @@ class HomeModule extends VuexModule implements IHomeState {
   }
 
   @Mutation
-  public LOAD_CURRENT_SEASON(animeSeasonPage: AnimeSeasonPage) {
-    this.animes = animeSeasonPage.animes;
+  public LOAD_CURRENT_SEASON(animeSeasonPage: ModelWithMeta<Anime[]>) {
+    this.animes = animeSeasonPage.models;
 
     if (animeSeasonPage.meta != null) {
       this.paginationMeta = animeSeasonPage.meta;

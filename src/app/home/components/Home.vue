@@ -7,7 +7,16 @@
         <div>
           <div class="tile is-ancestor" v-for="animesChunk in currentSeasonAsChunks(animes)" :key="animesChunk.id">
             <div class="tile is-parent has-image is-3" v-for="anime in animesChunk" :key="anime.id">
-              <tile :slug="anime.slug" :name="anime.name" :image="anime.coverImage"></tile>
+              <Tile
+                :id="anime.slug"
+                :name="anime.name"
+                :image="Helper.ResizeImageOrDefault(anime.coverImage, AnimeCoverSize.Tiny)"
+                :route="{ name: 'anime', params: { slug: anime.slug } }"
+                :isSelected="isBookmarked(anime.slug)"
+                @selected="addBookmark"
+                @deselected="unBookmark"
+              >
+              </Tile>
             </div>
           </div>
           <div class="algo">
@@ -44,20 +53,28 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import tile from './Tile.vue';
-import HomeModule, { IHomeState, Pagination } from '@/app/home/store';
+import HomeModule, { IHomeState } from '@/app/home/store';
 import Helper from '@/utils/helper';
 import { mapState } from 'vuex';
-import { Anime, PaginationMeta } from '@/models';
+import { Anime, PaginationMeta, Pagination } from '@/models';
+import { Tile } from '@/components';
+import { AnimeCoverSize } from '@/enums';
+import UserModule from '@/app/account/store';
 
 @Component({
-  components: { tile },
-  computed: mapState('Home', ['animes', 'paginationMeta', 'pagination']),
+  components: { Tile },
+  computed: {
+    ...mapState('Home', ['animes', 'paginationMeta', 'pagination']),
+    ...mapState('User', ['bookmarks']),
+  },
 })
 export default class Home extends Vue {
   private animes!: Anime[];
   private paginationMeta!: PaginationMeta;
   private pagination!: Pagination;
+  private bookmarks!: string[];
+  private Helper = Helper;
+  private AnimeCoverSize = AnimeCoverSize;
 
   private async created() {
     if (Helper.IsObjectEmpty(this.pagination)) {
@@ -94,6 +111,18 @@ export default class Home extends Vue {
 
   private currentSeasonAsChunks(animes: Anime[]) {
     return Helper.Chunk(animes, 4);
+  }
+
+  private async addBookmark(slug: string) {
+    UserModule.AddBookmark(slug);
+  }
+
+  private async unBookmark(slug: string) {
+    UserModule.RemoveBookmark(slug);
+  }
+
+  private isBookmarked(slug: string) {
+    return this.bookmarks.includes(slug);
   }
 }
 </script>
