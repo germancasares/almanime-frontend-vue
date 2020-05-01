@@ -14,7 +14,10 @@ export interface IAnimeState {
   namespaced: true,
 })
 class AnimeModule extends VuexModule implements IAnimeState {
-  public anime: AnimeWithEpisodes = {} as AnimeWithEpisodes;
+  public anime: AnimeWithEpisodes = {
+    coverImage: null,
+    posterImage: null,
+  } as AnimeWithEpisodes;
 
   @MutationAction({ mutate: ['anime']})
   public async GetAnimeBySlug(slug: string) {
@@ -26,7 +29,10 @@ class AnimeModule extends VuexModule implements IAnimeState {
   @MutationAction({ mutate: ['anime'] })
   public async CleanAnime() {
     return {
-      anime: {},
+      anime: {
+        coverImage: null,
+        posterImage: null,
+      },
     };
   }
 }

@@ -1,10 +1,10 @@
 <template>
   <main>
-    <Hero :image="anime.coverImage" :season="anime.season"></Hero>
+    <Hero :background="anime.coverImage" :season="anime.season"></Hero>
     <section class="container">
       <div class="columns">
         <div class="column is-narrow is-paddingless">
-          <Sidebar :anime="anime"></Sidebar>
+          <Sidebar></Sidebar>
         </div>
         <div class="column is-paddingless">
           <Crux :title="anime.name" :synopsis="anime.synopsis" :episodes="anime.episodes"></Crux>
@@ -16,7 +16,7 @@
 
 <script lang="ts">
 import { Component, Vue, Prop, Watch } from 'vue-property-decorator';
-import Hero from './Hero.vue';
+import { Hero } from '@/components';
 import Sidebar from './Sidebar.vue';
 import Crux from './Crux.vue';
 import { mapState } from 'vuex';

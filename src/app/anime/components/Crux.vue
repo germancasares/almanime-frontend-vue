@@ -1,7 +1,7 @@
 <template>
-  <div>
-    <section id="title" class="is-size-3 has-text-weight-semibold has-text-grey-dark">{{ title }}</section>
-    <section class="synopsis">{{ synopsis }}</section>
+  <div class="crux">
+    <section id="title" class="is-size-3 has-text-weight-semibold has-text-grey-dark">{{ anime.name }}</section>
+    <section class="synopsis">{{ anime.synopsis }}</section>
     <section class="chapters">
       <b-table :data="episodeList">
         <template slot-scope="props">
@@ -42,25 +42,25 @@
 
 <script lang="ts">
 import { Component, Vue, Prop } from 'vue-property-decorator';
-import { Episode } from '@/models';
+import { mapState } from 'vuex';
+import { Episode, AnimeWithEpisodes } from '@/models';
 import { DateFull } from '@/utils/filter';
 
 @Component({
   filters: { DateFull },
+  computed: mapState('Anime', ['anime']),
 })
 export default class Crux extends Vue {
-  @Prop() private title!: string;
-  @Prop() private synopsis!: string;
-  @Prop() private episodes!: Episode[];
+  private anime!: AnimeWithEpisodes;
 
   private get episodeList() {
-    return this.episodes;
+    return this.anime.episodes;
   }
 }
 </script>
 
 <style lang='scss' scoped>
-div {
+.crux {
   padding-left: 40px;
   height: 100%;
 
@@ -77,12 +77,6 @@ div {
 
   .chapters {
     padding-top: 20px;
-    .b-table {
-      padding-left: 0;
-      .th-wrap {
-        padding-left: 0;
-      }
-    }
   }
 }
 </style>
