@@ -1,10 +1,10 @@
 import { Season } from "@/enums";
 import Axios from 'axios';
-import { AnimeSeasonPage, AnimeWithEpisodes, Episode } from '@/models';
+import { AnimeWithEpisodes, Episode, ModelWithMeta, Anime } from '@/models';
 import Helper from '@/utils/helper';
 
 export class AnimeService {
-    public static async GetSeason(year: number, season: Season, page: number, includeMeta = false): Promise<AnimeSeasonPage> {
+    public static async GetSeason(year: number, season: Season, page: number, includeMeta = false): Promise<ModelWithMeta<Anime[]>> {
         return (await Axios.get(`anime/year/${year}/season/${season}?page=${page}&includeMeta=${includeMeta}`)).data;
     }
 
