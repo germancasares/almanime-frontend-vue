@@ -57,7 +57,7 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import { mapState, mapGetters } from 'vuex';
-import { NewFansub } from '@/models';
+import { FansubNew as Form } from '@/models';
 import { FansubService } from '@/services'
 import { FansubMainLanguage, FansubMembershipOption } from '@/enums';
 import Axios from 'axios';
@@ -75,7 +75,7 @@ export default class FansubNew extends Vue {
     mainLanguage: FansubMainLanguage.English,
     membershipOption: FansubMembershipOption.Private,
     webpage: '',
-  } as NewFansub;
+  } as Form;
 
   private isAuthenticated!: boolean;
   private languages = FansubMainLanguage;
