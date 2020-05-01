@@ -1,4 +1,4 @@
-import { Season } from '@/enums';
+import { Season, AnimeCoverSize, AnimePosterSize } from '@/enums';
 import { remove, get, set } from 'es-cookie';
 import { DateTime } from 'luxon';
 import { IAccountState } from '@/app/account/store';
@@ -10,6 +10,7 @@ export default {
   GetSeason,
   StringToDateTime,
   IsObjectEmpty,
+  ResizeImageOrDefault,
   Cookie: {
     GetAccountState,
     Create,
@@ -18,13 +19,18 @@ export default {
   },
 };
 
-function* Chunk<T>(collection: T[], size = 2): IterableIterator<T[]> {
-  for (let index = 0; index < collection.length; index += size) {
-    yield collection.slice(index, size + index);
+function* Chunk<T>(collection: T[], columns = 2): IterableIterator<T[]> {
+  for (let index = 0; index < collection.length; index += columns) {
+    yield collection.slice(index, columns + index);
   }
 }
 
-function GetSeason(month: number): Season {
+function GetSeason(month: number | DateTime): Season {
+
+  if (month instanceof DateTime) {
+    month = month.month;
+  }
+
   switch (true) {
     case month === 12 || month <= 2:
       return Season.Winter;
@@ -91,4 +97,8 @@ function StringToDateTime(date: string): DateTime {
 
 function IsObjectEmpty(object: object) {
   return Object.entries(object).length === 0 && object.constructor === Object;
+}
+
+function ResizeImageOrDefault(image: URL | null, size: AnimeCoverSize | AnimePosterSize) {
+  return image === null ? null : `${image.toString()}${size}.jpg`
 }
