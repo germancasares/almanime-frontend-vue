@@ -1,26 +1,56 @@
-import { Module, VuexModule, Mutation, Action } from 'vuex-module-decorators';
+import { Module, VuexModule, Mutation, Action, getModule, MutationAction } from 'vuex-module-decorators';
+import Axios from 'axios';
+import Helper from '@/utils/helper';
+import store from '@/store';
+import { Anime, PaginationMeta, AnimeSeasonPage } from '@/models';
 
-@Module
-export default class Home extends VuexModule {
-  public count = 0;
+export interface IHomeState {
+  animes: Anime[];
+  paginationMeta: PaginationMeta;
+  pagination: Pagination;
+}
 
-  // action 'incr' commits mutation 'increment' when done with return value as payload
-  @Action({ commit: 'increment' })
-  public incr() {
-    return 5;
+export interface Pagination {
+  current: number;
+  isLoading: boolean;
+  pageSize: number;
+}
+
+@Module({
+  name: 'Home',
+  store,
+  dynamic: true,
+  namespaced: true,
+})
+class HomeModule extends VuexModule implements IHomeState {
+  public animes = [] as Anime[];
+  public paginationMeta = {} as PaginationMeta;
+  public pagination = {} as Pagination;
+
+  @MutationAction({ mutate: ['pagination'] })
+  public async UpdatePagination(pagination: Pagination) {
+    return {
+      pagination,
+    };
   }
-  // action 'decr' commits mutation 'decrement' when done with return value as payload
-  @Action({ commit: 'decrement' })
-  public decr() {
-    return 5;
+
+  @Action({ commit: 'LOAD_CURRENT_SEASON', rawError: true })
+  public async GetAnimeSeasonPage(payload: { page: number, includeMeta?: boolean }) {
+    const now = new Date(Date.now());
+    const year = now.getFullYear();
+    const season = Helper.GetSeason(now.getMonth());
+
+    return (await Axios.get<AnimeSeasonPage>(`anime/year/${2018}/season/${season}?page=${payload.page}&includeMeta=${payload.includeMeta ?? false}`)).data;
   }
 
   @Mutation
-  public increment(delta: number) {
-    this.count += delta;
-  }
-  @Mutation
-  public decrement(delta: number) {
-    this.count -= delta;
+  public LOAD_CURRENT_SEASON(animeSeasonPage: AnimeSeasonPage) {
+    this.animes = animeSeasonPage.animes;
+
+    if (animeSeasonPage.meta != null) {
+      this.paginationMeta = animeSeasonPage.meta;
+    }
   }
 }
+
+export default getModule(HomeModule);
