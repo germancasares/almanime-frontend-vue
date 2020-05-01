@@ -1,4 +1,4 @@
-import { FansubNew, Fansub, AnimeWithEpisodesAndSubtitle, EpisodeWithSubtitle } from "@/models";
+import { FansubNew, Fansub, AnimeWithEpisodesAndSubtitle, EpisodeWithSubtitle, FansubAnime, ModelWithMeta, FansubEpisode, FansubUser } from "@/models";
 import Axios from 'axios';
 import Helper from '@/utils/helper';
 
@@ -31,21 +31,35 @@ export class FansubService {
   }
 
   public static async Get(acronym: string): Promise<Fansub> {
-    return (await Axios.get(`fansub/${acronym}`)).data;
+    const fansub = (await Axios.get(`fansub/${acronym}`)).data
+    
+    fansub.webpage = new URL(fansub.webpage);
+
+    return fansub;
   }
 
-  public static async GetAnimes(acronym: string): Promise<AnimeWithEpisodesAndSubtitle[]> {
-    const animes = (await Axios.get(`fansub/${acronym}/animes`)).data
+  public static async GetCompletedAnimes(acronym: string): Promise<ModelWithMeta<FansubAnime[]>> {
+    const page = (await Axios.get(`fansub/${acronym}/completedAnimes`)).data;
 
-    animes.forEach(
-      (a: AnimeWithEpisodesAndSubtitle) =>
-        a.episodes.forEach(
-          (e: EpisodeWithSubtitle) =>
-            e.subtitle.modificationDate = Helper.StringToDateTime(e.subtitle.modificationDate.toString()).toLocal(),
-        ),
-    );
+    page.models.forEach((anime: FansubAnime) => {
+      anime.finishedDate = Helper.StringToDateTime(anime.finishedDate.toString())
+    });
 
-    return animes;
+    return page;
+  }
+
+  public static async GetCompletedEpisodes(acronym: string): Promise<ModelWithMeta<FansubEpisode[]>> {
+    const page = (await Axios.get(`fansub/${acronym}/completedEpisodes`)).data;
+
+    page.models.forEach((episode: FansubEpisode) => {
+      episode.finishedDate = Helper.StringToDateTime(episode.finishedDate.toString())
+    });
+
+    return page;
+  }
+
+  public static async GetMembers(acronym: string): Promise<FansubUser[]> {
+    return (await Axios.get(`fansub/${acronym}/members`)).data;
   }
 
 }
