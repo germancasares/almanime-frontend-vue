@@ -1,67 +1,69 @@
 <template>
-  <main class="container">
-    <section class="name is-size-1">{{ fansub.acronym }}</section>
-
-    <section class="animes">
-      <b-table :data="animes" detailed hoverable>
-        <template slot-scope="props">
-          <b-table-column field="name" label="Anime" searchable>{{ props.row.name }}</b-table-column>
-          <b-table-column field="finished" label="Finished">{{ props.row.episodes | FinishedRecount }}</b-table-column>
-          <b-table-column field="episodesCount" label="Total">{{ props.row.episodesCount }}</b-table-column>
-        </template>
-
-        <template slot="detail" slot-scope="props">
-          <tr class="episodes" v-for="episode in props.row.episodes" :key="episode.number">
-            <td></td>
-            <td>{{ episode.number }}</td>
-            <td>{{ episode.name }}</td>
-            <td>{{ episode.subtitle.modificationDate | DateTimeFull }}</td>
-            <td>
-              <a class="button" :href="episode.subtitle.url" target="_blank">
-                <b-icon icon="download"></b-icon>
-              </a>
-            </td>
-          </tr>
-        </template>
-      </b-table>
+  <main>
+    <Hero :season="season"></Hero>
+    <section class="container">
+      <div class="columns">
+        <div class="column is-narrow is-paddingless">
+          <Sidebar></Sidebar>
+        </div>
+        <div class="column is-paddingless">
+          <Crux></Crux>
+        </div>
+      </div>
     </section>
   </main>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import FansubViewModule from '@/app/fansub-view/store';
 import { mapState } from 'vuex';
+import { DateTime } from 'luxon';
+import Helper from '@/utils/helper';
 import { AnimeWithEpisodesAndSubtitle } from '@/models';
-import { SubtitleStatus } from '@/enums';
+import { SubtitleStatus, Season } from '@/enums';
 import { FinishedRecount, DateTimeFull } from '@/utils/filter';
+import { Hero } from '@/components';
+import Sidebar from './Sidebar.vue';
+import Crux from './Crux.vue';
+import FansubViewModule from '@/app/fansub-view/store';
 
 @Component({
+  components: {
+    Hero,
+    Sidebar,
+    Crux
+  },
   filters: { FinishedRecount, DateTimeFull },
-  computed: mapState('FansubView', ['fansub', 'animes']),
   beforeRouteLeave: (to, from, next) => {
     FansubViewModule.CleanFansub();
     next();
   },
 })
 export default class FansubView extends Vue {
+  public season: Season = Season.Winter
+
   private async created() {
+    this.season = Helper.GetSeason(DateTime.local());
+
     if (this.$route.params.acronym !== null) {
-      await FansubViewModule.LoadFansub(this.$route.params.acronym);
-      await FansubViewModule.LoadAnimes(this.$route.params.acronym);
+      const loadFansub = FansubViewModule.LoadFansub(this.$route.params.acronym)
+      const loadCompletedAnimes = FansubViewModule.LoadCompletedAnimes(this.$route.params.acronym);
+      const loadCompletedEpisodes = FansubViewModule.LoadCompletedEpisodes(this.$route.params.acronym);
+      const loadMembers = FansubViewModule.LoadMembers(this.$route.params.acronym);
+
+      await Promise.all([loadFansub, loadCompletedAnimes, loadCompletedEpisodes, loadMembers]);
     }
   }
 }
 </script>
 
 <style lang='scss' scoped>
-.name {
-  text-transform: capitalize;
+.columns {
+  margin-top: 0;
 }
 
-.episodes {
-  td {
-    vertical-align: middle;
-  }
+.column {
+  position: relative;
+  top: -140px;
 }
 </style>
