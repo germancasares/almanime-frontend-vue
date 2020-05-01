@@ -1,6 +1,5 @@
 export { Login, Register } from './account';
 export { Anime } from './anime';
-export { AnimeSeasonPage } from './animeSeasonPage';
 export { AnimeWithEpisodes } from './animeWithEpisodes';
 export { AnimeWithEpisodesAndSubtitle } from './animeWithEpisodesAndSubtitle';
 export { Bookmark } from './bookmark';
@@ -9,4 +8,9 @@ export { EpisodeWithSubtitle } from './episodeWithSubtitle';
 export { Fansub, FansubNew } from './fansub';
 export { Subtitle } from './subtitle';
 export { User } from './user';
-export { PaginationMeta } from './paginationMeta';
+export { ModelWithMeta } from './pagination/modelWithMeta';
+export { PaginationMeta } from './pagination/paginationMeta';
+export { Pagination } from './pagination/pagination';
+export { FansubAnime } from './fansubAnime';
+export { FansubEpisode } from './fansubEpisode';
+export { FansubUser } from './fansubUser';

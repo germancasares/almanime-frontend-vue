@@ -7,6 +7,7 @@ export interface Fansub {
   acronym: string;
   fullName: string;
   logoUrl: string;
+  webpage: URL | null;
 }
 
 export interface FansubNew {
