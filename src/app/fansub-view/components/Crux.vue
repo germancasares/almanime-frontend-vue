@@ -33,7 +33,7 @@
 <script lang="ts">
 import { Component, Vue, Prop } from 'vue-property-decorator';
 import { mapState } from 'vuex';
-import Newest from './Newest.vue'
+import Newest from './Newest.vue';
 import Members from './Members.vue';
 
 @Component({

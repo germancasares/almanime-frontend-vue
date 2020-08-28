@@ -23,7 +23,7 @@ class AnimeModule extends VuexModule implements IAnimeState {
   public async GetAnimeBySlug(slug: string) {
     return {
       anime: await AnimeService.GetBySlug(slug),
-    }
+    };
   }
 
   @MutationAction({ mutate: ['anime'] })

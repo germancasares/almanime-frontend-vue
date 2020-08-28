@@ -6,7 +6,7 @@ export class UserService {
         return (await Axios.get('user/self')).data;
     }
 
-    //TODO: Update method to accept UserDTO
+    // TODO: Update method to accept UserDTO
     public static async Update(avatar: File): Promise<User> {
         const data = new FormData();
         data.append('Avatar', avatar);

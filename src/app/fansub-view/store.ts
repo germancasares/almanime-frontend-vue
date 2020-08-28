@@ -1,6 +1,6 @@
 import { VuexModule, Module, MutationAction, getModule } from 'vuex-module-decorators';
 import store from '@/store';
-import { Fansub, AnimeWithEpisodesAndSubtitle, FansubAnime, PaginationMeta, Pagination, FansubEpisode, FansubUser } from '@/models';
+import { Fansub, FansubAnime, PaginationMeta, Pagination, FansubEpisode, FansubUser } from '@/models';
 
 import { FansubService } from '@/services';
 
@@ -55,7 +55,7 @@ class FansubViewModule extends VuexModule implements IFansubViewState {
     const members = await FansubService.GetMembers(acronym);
 
     return {
-      members: members,
+      members,
     };
   }
 

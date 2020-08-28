@@ -6,10 +6,10 @@ import { routes as fansubList } from './fansub-list';
 import { routes as fansubNew } from './fansub-new';
 
 export default [
-    ...home, 
-    ...anime, 
+    ...home,
+    ...anime,
     ...account,
     ...fansubNew,
-    ...fansubView, 
-    ...fansubList, 
+    ...fansubView,
+    ...fansubList,
 ];

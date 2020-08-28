@@ -6,7 +6,7 @@ import store from '@/store';
 // import Helper from '@/utils/helper';
 
 export interface IFansubListState {
-
+  a: string;
 }
 
 @Module({
@@ -16,6 +16,7 @@ export interface IFansubListState {
     namespaced: true,
   })
 class FansubListModule extends VuexModule implements IFansubListState {
+  public a: string = '';
 
 }
 

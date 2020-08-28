@@ -1,15 +1,20 @@
-import { Season } from "@/enums";
+import { Season } from '@/enums';
 import Axios from 'axios';
 import { AnimeWithEpisodes, Episode, ModelWithMeta, Anime } from '@/models';
 import Helper from '@/utils/helper';
 
 export class AnimeService {
-    public static async GetSeason(year: number, season: Season, page: number, includeMeta = false): Promise<ModelWithMeta<Anime[]>> {
+    public static async GetSeason(
+        year: number,
+        season: Season,
+        page: number,
+        includeMeta = false,
+    ): Promise<ModelWithMeta<Anime[]>> {
         return (await Axios.get(`anime/year/${year}/season/${season}?page=${page}&includeMeta=${includeMeta}`)).data;
     }
 
     public static async GetBySlug(slug: string): Promise<AnimeWithEpisodes> {
-        const anime = (await Axios.get(`anime/slug/${slug}`)).data
+        const anime = (await Axios.get(`anime/slug/${slug}`)).data;
 
         // anime.startDate is string even though is defined as DateTime in Typescript.
         anime.startDate = Helper.StringToDateTime(anime.startDate.toString());

@@ -34,7 +34,7 @@ import UserModule, { IUserState } from '@/app/account/store';
 import { mapState, mapGetters } from 'vuex';
 import Helper from '@/utils/helper';
 
-const Avatar = require('vue-avatar').Avatar;
+import Avatar from 'vue-avatar';
 
 @Component({
   components: { Avatar },

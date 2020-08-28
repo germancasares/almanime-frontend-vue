@@ -12,7 +12,7 @@ import { mapState } from 'vuex';
   computed: mapState('FansubList', ['']),
 })
 export default class FansubList extends Vue {
-  
+
 }
 </script>
 

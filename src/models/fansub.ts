@@ -11,9 +11,9 @@ export interface Fansub {
 }
 
 export interface FansubNew {
-  fullName: string,
-  acronym: string,
-  mainLanguage: FansubMainLanguage,
-  membershipOption: FansubMembershipOption,
-  webpage: string,
+  fullName: string;
+  acronym: string;
+  mainLanguage: FansubMainLanguage;
+  membershipOption: FansubMembershipOption;
+  webpage: string;
 }

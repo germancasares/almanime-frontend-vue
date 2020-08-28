@@ -12,7 +12,7 @@ import { Anime } from '@/models';
 import { Poster } from '@/components';
 import Info from './Info.vue';
 import Helper from '@/utils/helper';
-import { AnimePosterSize } from '@/enums'
+import { AnimePosterSize } from '@/enums';
 
 @Component({
   components: { Poster, Info },

@@ -17,7 +17,7 @@ export default class Poster extends Vue {
   }
 
   get poster() {
-    return this.image === undefined ? this.defaultPoster() : this.image
+    return this.image === undefined ? this.defaultPoster() : this.image;
   }
 }
 </script>

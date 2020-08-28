@@ -1,4 +1,4 @@
-import { FansubNew, Fansub, AnimeWithEpisodesAndSubtitle, EpisodeWithSubtitle, FansubAnime, ModelWithMeta, FansubEpisode, FansubUser } from "@/models";
+import { FansubNew, Fansub, FansubAnime, ModelWithMeta, FansubEpisode, FansubUser } from '@/models';
 import Axios from 'axios';
 import Helper from '@/utils/helper';
 
@@ -31,8 +31,8 @@ export class FansubService {
   }
 
   public static async Get(acronym: string): Promise<Fansub> {
-    const fansub = (await Axios.get(`fansub/${acronym}`)).data
-    
+    const fansub = (await Axios.get(`fansub/${acronym}`)).data;
+
     fansub.webpage = new URL(fansub.webpage);
 
     return fansub;
@@ -42,7 +42,7 @@ export class FansubService {
     const page = (await Axios.get(`fansub/${acronym}/completedAnimes`)).data;
 
     page.models.forEach((anime: FansubAnime) => {
-      anime.finishedDate = Helper.StringToDateTime(anime.finishedDate.toString())
+      anime.finishedDate = Helper.StringToDateTime(anime.finishedDate.toString());
     });
 
     return page;
@@ -52,7 +52,7 @@ export class FansubService {
     const page = (await Axios.get(`fansub/${acronym}/completedEpisodes`)).data;
 
     page.models.forEach((episode: FansubEpisode) => {
-      episode.finishedDate = Helper.StringToDateTime(episode.finishedDate.toString())
+      episode.finishedDate = Helper.StringToDateTime(episode.finishedDate.toString());
     });
 
     return page;

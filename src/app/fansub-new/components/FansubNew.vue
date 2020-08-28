@@ -58,7 +58,7 @@
 import { Component, Vue } from 'vue-property-decorator';
 import { mapState, mapGetters } from 'vuex';
 import { FansubNew as Form } from '@/models';
-import { FansubService } from '@/services'
+import { FansubService } from '@/services';
 import { FansubMainLanguage, FansubMembershipOption } from '@/enums';
 import Axios from 'axios';
 
@@ -66,7 +66,7 @@ import Axios from 'axios';
   computed: {
     ...mapState('FansubNew', ['']),
     ...mapGetters('User', ['isAuthenticated']),
-  }
+  },
 })
 export default class FansubNew extends Vue {
   private fansub = {
@@ -98,7 +98,7 @@ export default class FansubNew extends Vue {
     const fullName = this.fansub.fullName.trim();
 
     if (fullName === '') {
-      //TODO: Update error message with value cannot be empty string
+      // TODO: Update error message with value cannot be empty string
       this.isFullNameAvailable = false;
       this.isFullNameVisible = true;
       return;
@@ -112,13 +112,13 @@ export default class FansubNew extends Vue {
     const acronym = this.fansub.acronym.trim();
 
     if (acronym === '') {
-      //TODO: Update error message with value cannot be empty string
+      // TODO: Update error message with value cannot be empty string
       this.isAcronymAvailable = false;
       this.isAcronymVisible = true;
       return;
     }
 
-    this.isAcronymAvailable = await FansubService.IsAcronymAvailable(acronym)
+    this.isAcronymAvailable = await FansubService.IsAcronymAvailable(acronym);
     this.isAcronymVisible = true;
   }
 

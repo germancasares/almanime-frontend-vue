@@ -31,7 +31,7 @@ import FansubViewModule from '@/app/fansub-view/store';
   components: {
     Hero,
     Sidebar,
-    Crux
+    Crux,
   },
   filters: { FinishedRecount, DateTimeFull },
   beforeRouteLeave: (to, from, next) => {
@@ -40,13 +40,13 @@ import FansubViewModule from '@/app/fansub-view/store';
   },
 })
 export default class FansubView extends Vue {
-  public season: Season = Season.Winter
+  public season: Season = Season.Winter;
 
   private async created() {
     this.season = Helper.GetSeason(DateTime.local());
 
     if (this.$route.params.acronym !== null) {
-      const loadFansub = FansubViewModule.LoadFansub(this.$route.params.acronym)
+      const loadFansub = FansubViewModule.LoadFansub(this.$route.params.acronym);
       const loadCompletedAnimes = FansubViewModule.LoadCompletedAnimes(this.$route.params.acronym);
       const loadCompletedEpisodes = FansubViewModule.LoadCompletedEpisodes(this.$route.params.acronym);
       const loadMembers = FansubViewModule.LoadMembers(this.$route.params.acronym);

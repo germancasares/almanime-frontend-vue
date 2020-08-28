@@ -4,10 +4,10 @@ import { store as account } from './account';
 import { store as fansubView } from './fansub-view';
 import { store as fansubList } from './fansub-list';
 
-export default { 
-    home, 
-    anime, 
-    account, 
-    fansubView, 
-    fansubList, 
+export default {
+    home,
+    anime,
+    account,
+    fansubView,
+    fansubList,
 };

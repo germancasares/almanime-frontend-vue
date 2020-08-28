@@ -15,7 +15,7 @@ import { FansubUser } from '../../../models';
 export default class Members extends Vue {
   private members!: FansubUser[];
 
-  
+
 }
 </script>
 

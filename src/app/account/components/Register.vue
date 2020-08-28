@@ -53,8 +53,8 @@ import { Register as RegisterForm } from '@/models/account';
 import Helper from '@/utils/helper';
 import { AccountService } from '@/services';
 
-//TODO: Use this for the error messages.
-//TODO: Add option for value is not an email (that includes empty string or spaces)
+// TODO: Use this for the error messages.
+// TODO: Add option for value is not an email (that includes empty string or spaces)
 enum ErrorCode {
   PasswordTooShort,
   PasswordRequiresNonAlphanumeric,
@@ -62,7 +62,7 @@ enum ErrorCode {
   PasswordRequiresUpper,
 }
 
-//TODO: Apply the same rules as the backend is applying for the username/email
+// TODO: Apply the same rules as the backend is applying for the username/email
 @Component({
   computed: {
     ...mapState('User', ['account']),
@@ -120,7 +120,7 @@ export default class Register extends Vue {
     const email = this.registerForm.email.trim();
 
     if (email === '') {
-      //TODO: Update error message with value is not an email
+      // TODO: Update error message with value is not an email
       this.isEmailAvailable = false;
       this.isEmailVisible = true;
       return;
@@ -134,7 +134,7 @@ export default class Register extends Vue {
     const username = this.registerForm.username.trim();
 
     if (username === '') {
-      //TODO: Update error message with value cannot be empty string
+      // TODO: Update error message with value cannot be empty string
       this.isUsernameAvailable = false;
       this.isUsernameVisible = true;
       return;

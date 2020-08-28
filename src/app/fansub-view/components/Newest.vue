@@ -43,7 +43,7 @@ import { AnimeCoverSize } from '@/enums';
   computed: {
     ...mapState('FansubView', ['fansub', 'animes', 'episodes']),
     ...mapState('User', ['bookmarks']),
-  }
+  },
 })
 export default class Newest extends Vue {
   private fansub!: Fansub;
@@ -57,8 +57,8 @@ export default class Newest extends Vue {
     return Helper.Chunk(this.animes, 4);
   }
 
-  private getEpisodeName(animeName: string, number: number, name: string | null) {
-    return name === null ? `${animeName} ~ Episode ${number}` : `${animeName} ~ ${name}`;
+  private getEpisodeName(animeName: string, episodeNumber: number, name: string | null) {
+    return name === null ? `${animeName} ~ Episode ${episodeNumber}` : `${animeName} ~ ${name}`;
   }
 
   private episodesAsChunks() {

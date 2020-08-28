@@ -100,5 +100,5 @@ function IsObjectEmpty(object: object) {
 }
 
 function ResizeImageOrDefault(image: URL | null, size: AnimeCoverSize | AnimePosterSize) {
-  return image === null ? null : `${image.toString()}${size}.jpg`
+  return image === null ? null : `${image.toString()}${size}.jpg`;
 }

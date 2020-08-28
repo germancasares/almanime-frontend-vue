@@ -42,7 +42,7 @@ export default class Tile extends Vue {
   }
 
   get cover() {
-    return this.image === null ? this.defaultCover() : this.image
+    return this.image === null ? this.defaultCover() : this.image;
   }
 
   private async select() {
