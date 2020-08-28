@@ -1,4 +1,5 @@
 import { DateTime } from 'luxon';
+import { FansubMembershipOption, FansubMainLanguage } from '@/enums';
 
 export interface Fansub {
   id: string;
@@ -6,4 +7,13 @@ export interface Fansub {
   acronym: string;
   fullName: string;
   logoUrl: string;
+  webpage: URL | null;
+}
+
+export interface FansubNew {
+  fullName: string;
+  acronym: string;
+  mainLanguage: FansubMainLanguage;
+  membershipOption: FansubMembershipOption;
+  webpage: string;
 }

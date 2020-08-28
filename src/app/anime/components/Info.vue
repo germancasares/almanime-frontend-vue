@@ -6,23 +6,23 @@
     <div>
       <ul>
         <li v-if="anime.episodes">
-          <strong class="has-text-primary has-text-weight-bold">Episodes:</strong>
+          <strong class="has-text-primary has-text-weight-bold">Episodes: </strong>
           <span>{{ anime.episodes.length }}</span>
         </li>
         <li>
-          <strong class="has-text-primary has-text-weight-bold">Status:</strong>
+          <strong class="has-text-primary has-text-weight-bold">Status: </strong>
           <span>{{ anime.status }}</span>
         </li>
         <li>
-          <strong class="has-text-primary has-text-weight-bold">Aired:</strong>
+          <strong class="has-text-primary has-text-weight-bold">Aired: </strong>
           <span>{{ anime.startDate | DateFull }}</span>
         </li>
         <li>
-          <strong class="has-text-primary has-text-weight-bold">Season:</strong>
+          <strong class="has-text-primary has-text-weight-bold">Season: </strong>
           <span>{{ anime.season }}</span>
         </li>
         <li class="links">
-          <strong class="has-text-primary has-text-weight-bold">Links:</strong>
+          <strong class="has-text-primary has-text-weight-bold">Links: </strong>
           <a :href="`https://kitsu.io/anime/${anime.slug}`" target="_blank">
             <img class="kitsuLogo" :src="kitsuLogo" />
           </a>
@@ -36,13 +36,13 @@
 import { Component, Vue, Prop } from 'vue-property-decorator';
 import { Anime } from '@/models';
 import { DateFull } from '@/utils/filter';
+import { mapState } from 'vuex';
 
 @Component({
   filters: { DateFull },
+  computed: mapState('Anime', ['anime']),
 })
 export default class Info extends Vue {
-  @Prop() private anime!: Anime;
-
   private get kitsuLogo() {
     return require('@/assets/kitsu.png');
   }

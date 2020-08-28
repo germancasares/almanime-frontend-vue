@@ -1,6 +1,6 @@
 <template>
   <figure class="image is-clipped">
-    <img :src="cover" />
+    <img :src="poster" />
   </figure>
 </template>
 
@@ -10,10 +10,14 @@ import { AnimeCoverSize } from '@/enums';
 
 @Component
 export default class Poster extends Vue {
-  @Prop() private image!: URL;
+  @Prop() private image!: URL | undefined;
 
-  private get cover() {
-    return `${this.image}${AnimeCoverSize.Small}.jpg`;
+  private defaultPoster() {
+    return require('@/assets/default-poster.jpg');
+  }
+
+  get poster() {
+    return this.image === undefined ? this.defaultPoster() : this.image;
   }
 }
 </script>

@@ -17,11 +17,11 @@ import { Season, AnimePosterSize } from '@/enums';
 
 @Component
 export default class Hero extends Vue {
-  @Prop() private image!: URL;
+  @Prop() private background!: URL | null;
   @Prop() private season!: Season;
 
   private get poster() {
-    if (this.image == null) {
+    if (this.background == null) {
       switch (this.season) {
         case Season.Winter:
           return require('@/assets/seasons/Winter.jpg');
@@ -34,7 +34,7 @@ export default class Hero extends Vue {
       }
     }
 
-    return `${this.image}${AnimePosterSize.Small}.jpg`;
+    return `${this.background}${AnimePosterSize.Small}.jpg`;
   }
 }
 </script>

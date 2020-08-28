@@ -17,7 +17,7 @@
         <div class="navbar-start">
           <router-link :to="{ name: 'home' }" class="navbar-item">Home</router-link>
           <a class="navbar-item">Anime</a>
-          <a class="navbar-item">Fansub</a>
+          <router-link :to="{ name: 'fansub-list' }" class="navbar-item">Fansub</router-link>
           <a class="navbar-item">Users</a>
         </div>
 
@@ -84,7 +84,7 @@ import { Component, Vue } from 'vue-property-decorator';
 import { mapState, mapGetters } from 'vuex';
 import UserModule, { IUserState } from '@/app/account/store';
 
-const Avatar = require('vue-avatar').Avatar;
+import Avatar from 'vue-avatar';
 
 @Component({
   components: { Avatar },

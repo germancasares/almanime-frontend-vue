@@ -12,6 +12,6 @@ export interface Anime {
   synopsis: string;
   startDate: DateTime;
 
-  coverImage: URL;
-  posterImage: URL;
+  coverImage: URL | null;
+  posterImage: URL | null;
 }
