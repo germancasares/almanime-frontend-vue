@@ -1,7 +1,7 @@
 export interface PaginationMeta {
     count: number;
     first: URL;
-    previous: URL;
-    next: URL;
+    previous: URL | null;
+    next: URL | null;
     last: URL;
 }

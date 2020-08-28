@@ -1,6 +1,6 @@
 <template>
   <div class="tile-content">
-    <router-link :to="{ name: 'anime', params: { slug: slug } }">
+    <router-link :to="route">
       <div class="overlay"></div>
       <figure class="image is-16by9">
         <img :src="cover" />
@@ -8,11 +8,11 @@
       <div class="name">
         <h3>{{ name }}</h3>
       </div>
-      <div class="bookmark" v-if="isAuthenticated">
-        <div v-if="isBookmarked" @click.prevent="unBookmark">
+      <div class="bookmark" v-if="isAuthenticated && id !== undefined">
+        <div v-if="isSelected" @click.prevent="deselect">
           <b-icon icon="star"></b-icon>
         </div>
-        <div v-else @click.prevent="addBookmark">
+        <div v-else @click.prevent="select">
           <b-icon icon="star-outline"></b-icon>
         </div>
       </div>
@@ -21,49 +21,41 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop, Watch } from 'vue-property-decorator';
-import { mapState, mapGetters } from 'vuex';
-import UserModule, { IUserState } from '@/app/account/store';
-import { AnimeCoverSize } from '@/enums';
+import { Component, Vue, Prop } from 'vue-property-decorator';
+import { mapGetters } from 'vuex';
+import { Route } from 'vue-router';
 
 @Component({
   computed: {
-    ...mapState('User', ['bookmarks']),
     ...mapGetters('User', ['isAuthenticated']),
-    isBookmarked(this: Tile) {
-      return this.bookmarks.includes(this.slug);
-    },
   },
 })
 export default class Tile extends Vue {
+  @Prop() private id!: string | undefined;
   @Prop() private name!: string;
-  @Prop() private slug!: string;
-  @Prop() private image!: URL;
-  private bookmarks!: string[];
+  @Prop() private image!: URL | null;
+  @Prop() private route!: Route | null;
+  @Prop() private isSelected!: boolean;
 
   private defaultCover() {
     return require('@/assets/default-cover.jpg');
   }
 
   get cover() {
-    if (this.image == null) {
-      return this.defaultCover();
-    }
-
-    return `${this.image.toString()}${AnimeCoverSize.Tiny}.jpg`;
+    return this.image === null ? this.defaultCover() : this.image;
   }
 
-  private async addBookmark() {
-    UserModule.AddBookmark(this.slug);
+  private async select() {
+    this.$emit('selected', this.id);
   }
 
-  private async unBookmark() {
-    UserModule.RemoveBookmark(this.slug);
+  private async deselect() {
+    this.$emit('deselected', this.id);
   }
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang='scss' scoped>
 .tile-content {
   position: relative;
   width: 100%;

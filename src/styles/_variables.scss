@@ -1,6 +1,10 @@
 $primary: #00d1b2;
 $font-asap-condensed: 'Asap Condensed', sans-serif;
 $background: #f5f5f5;
+$tabs-link-active-color: $primary;
+$tabs-link-active-border-bottom-color: $primary;
+$tabs-toggle-link-active-background-color: $primary;
+$tabs-toggle-link-active-border-color: $primary;
 
 // Import Bulma's core
 @import "~bulma/sass/utilities/_all";

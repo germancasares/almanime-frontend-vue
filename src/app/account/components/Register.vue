@@ -50,9 +50,11 @@ import { Component, Vue, Prop } from 'vue-property-decorator';
 import { mapState, mapGetters } from 'vuex';
 import UserModule, { IUserState, IAccountState } from '@/app/account/store';
 import { Register as RegisterForm } from '@/models/account';
-import Axios from 'axios';
 import Helper from '@/utils/helper';
+import { AccountService } from '@/services';
 
+// TODO: Use this for the error messages.
+// TODO: Add option for value is not an email (that includes empty string or spaces)
 enum ErrorCode {
   PasswordTooShort,
   PasswordRequiresNonAlphanumeric,
@@ -60,6 +62,7 @@ enum ErrorCode {
   PasswordRequiresUpper,
 }
 
+// TODO: Apply the same rules as the backend is applying for the username/email
 @Component({
   computed: {
     ...mapState('User', ['account']),
@@ -117,18 +120,13 @@ export default class Register extends Vue {
     const email = this.registerForm.email.trim();
 
     if (email === '') {
-      // Email is incorrect
+      // TODO: Update error message with value is not an email
+      this.isEmailAvailable = false;
       this.isEmailVisible = true;
+      return;
     }
 
-    await Axios.head(`account/email/${email}`).then(
-      () => {
-        this.isEmailAvailable = false;
-      },
-      () => {
-        this.isEmailAvailable = true;
-      },
-    );
+    this.isEmailAvailable = await AccountService.IsEmailAvailable(email);
     this.isEmailVisible = true;
   }
 
@@ -136,18 +134,13 @@ export default class Register extends Vue {
     const username = this.registerForm.username.trim();
 
     if (username === '') {
-      // Username is incorrect
+      // TODO: Update error message with value cannot be empty string
+      this.isUsernameAvailable = false;
       this.isUsernameVisible = true;
+      return;
     }
 
-    await Axios.head(`account/username/${username}`).then(
-      () => {
-        this.isUsernameAvailable = false;
-      },
-      () => {
-        this.isUsernameAvailable = true;
-      },
-    );
+    this.isUsernameAvailable = await AccountService.IsUsernameAvailable(username);
     this.isUsernameVisible = true;
   }
 }
