@@ -30,10 +30,11 @@ Create a `docker-compose.override.yml` file with the following snippet:
         NODE_ENV: development
       ports:
         - 80:8080
+        - 8000:8000
       volumes:
         - '.:/app:cached'
         - 'node_modules:/app/node_modules/'
-      command: /bin/sh -c "npm run serve"
+      command: /bin/sh -c "npm install -g @vue/cli && vue ui --host 0.0.0.0""
 
   volumes:
     node_modules:
