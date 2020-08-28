@@ -55,7 +55,7 @@ Create a `docker-compose.override.yml` file with the following snippet:
 
 1. Create a .devcontainer folder on the root of the project
 2. Create a `devcontainer.json` file with the following snippet:
-    ```JSON
+    ```JSON5
     // For format details, see https://aka.ms/vscode-remote/devcontainer.json or this file's README at:
     // https://github.com/microsoft/vscode-dev-containers/tree/v0.134.1/containers/docker-existing-docker-compose
     // If you want to run as a non-root user in the container, see .devcontainer/docker-compose.yml.
