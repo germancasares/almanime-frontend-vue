@@ -8,13 +8,13 @@
             <form class="box" @submit.prevent="register">
               <label class="label">Username</label>
               <p class="control">
-                <input v-model="registerForm.username" @keyup="checkUsername" class="input" type="text" placeholder="Luffy" />
+                <input v-model="registerForm.username" @keyup="checkUsernameDebounced" class="input" type="text" placeholder="Luffy" />
               </p>
               <p v-show="isUsernameVisible && isUsernameAvailable" class="help is-success">This username is available</p>
               <p v-show="isUsernameVisible && !isUsernameAvailable" class="help is-danger">This username is not available</p>
               <label class="label">Email</label>
               <p class="control">
-                <input v-model="registerForm.email" @keyup="checkEmail" class="input" type="text" placeholder="luffy@onepiece.com" />
+                <input v-model="registerForm.email" @keyup="checkEmailDebounced" class="input" type="text" placeholder="luffy@onepiece.com" />
               </p>
               <p v-show="isEmailVisible && isEmailAvailable" class="help is-success">This email is available</p>
               <p v-show="isEmailVisible && !isEmailAvailable" class="help is-danger">This email is not available</p>
@@ -52,6 +52,7 @@ import UserModule, { IUserState, IAccountState } from '@/app/account/store';
 import { Register as RegisterForm } from '@/models/account';
 import Helper from '@/utils/helper';
 import { AccountService } from '@/services';
+import { debounce } from 'debounce';
 
 // TODO: Use this for the error messages.
 // TODO: Add option for value is not an email (that includes empty string or spaces)
@@ -82,9 +83,11 @@ export default class Register extends Vue {
 
   private isUsernameVisible = false;
   private isUsernameAvailable = false;
+  private checkUsernameDebounced = debounce(this.checkUsername, 500);
 
   private isEmailVisible = false;
   private isEmailAvailable = false;
+  private checkEmailDebounced = debounce(this.checkEmail, 500);
 
   private doPasswordsMatch = true;
 
