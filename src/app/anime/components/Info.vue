@@ -53,8 +53,10 @@ export default class Info extends Vue {
 .media-summary {
   margin-top: 20px;
   padding: 20px;
-  border: 1px solid $primary;
   border-radius: 3px;
+  @include themed() {
+    border: 1px solid t($primary);
+  }
 
   h5 {
     display: flex;
@@ -63,9 +65,11 @@ export default class Info extends Vue {
     top: -37px;
 
     span {
-      background-color: $background;
       padding: 0 10px;
       font-family: $font-asap-condensed;
+      @include themed() {
+        background-color: t($background);
+      }
     }
   }
 
