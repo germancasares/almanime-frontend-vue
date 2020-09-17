@@ -130,4 +130,16 @@ export default class Home extends Vue {
 .container {
   position: relative;
 }
+
+.title {
+  @include themed() {
+    color: t($text);
+  }
+}
+
+hr {
+  @include themed() {
+    background-color: t($text);
+  }
+}
 </style>
