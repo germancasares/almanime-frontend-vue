@@ -45,6 +45,10 @@
             </div>
           </div>
 
+          <div class="navbar-item theme-switch" v-on:click="updateTheme">
+            <b-icon :icon="isDarkTheme ? 'weather-night' : 'white-balance-sunny'"></b-icon>
+          </div>
+
           <div class="navbar-item has-dropdown is-hoverable" v-if="isAuthenticated">
             <div class="navbar-link">
               <div v-if="isAuthenticated" class="avatar">
@@ -83,6 +87,7 @@
 import { Component, Vue } from 'vue-property-decorator';
 import { mapState, mapGetters } from 'vuex';
 import UserModule, { IUserState } from '@/app/account/store';
+import { app as AppModule } from '@/app/store';
 
 import Avatar from 'vue-avatar';
 
@@ -90,10 +95,13 @@ import Avatar from 'vue-avatar';
   components: { Avatar },
   computed: {
     ...mapState('User', ['avatarUrl']),
+    ...mapState('App', ['isDarkTheme']),
     ...mapGetters('User', ['username', 'isAuthenticated', 'hasAvatar']),
   },
 })
 export default class Header extends Vue {
+  private isDarkTheme!: boolean;
+
   private logout() {
     UserModule.Logout();
 
@@ -101,12 +109,27 @@ export default class Header extends Vue {
       this.$router.push({ name: 'home' });
     }
   }
+
+  private updateTheme() {
+    AppModule.UpdateTheme(!this.isDarkTheme);
+  }
 }
 </script>
 
 <style lang='scss' scoped>
+.navbar {
+  @include themed() {
+    background-color: t($background-header);
+  }
+}
+
 .navbar-item {
   padding: 0.5rem 1rem;
+}
+
+.theme-switch {
+  padding: 0;
+  padding-right: 0.25rem;
 }
 
 .navbar-link {
