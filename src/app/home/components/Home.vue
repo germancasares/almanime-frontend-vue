@@ -4,7 +4,7 @@
       <div>
         <h1 class="title">Current Season</h1>
         <hr />
-        <div>
+        <div class="page">
           <div class="tile is-ancestor" v-for="animesChunk in currentSeasonAsChunks(animes)" :key="animesChunk.id">
             <div class="tile is-parent has-image is-3" v-for="anime in animesChunk" :key="anime.id">
               <Tile
@@ -19,11 +19,8 @@
               </Tile>
             </div>
           </div>
-          <div class="algo">
-            <b-loading :is-full-page="false" :active.sync="pagination.isLoading"></b-loading>
-          </div>
         </div>
-        <div>
+        <div class="pages">
           <b-pagination
             :total="paginationMeta.count"
             :current="pagination.current"
@@ -133,13 +130,27 @@ export default class Home extends Vue {
 
 .title {
   @include themed() {
-    color: t($text);
+    color: t($title);
   }
 }
 
 hr {
   @include themed() {
-    background-color: t($text);
+    background-color: t($title);
+  }
+}
+
+.page {
+  margin-bottom: 1rem;
+}
+
+.pages ::v-deep .pagination-link {
+  @include themed() {
+    color: t($primary);
+  }
+
+  &.is-current {
+    color: white;
   }
 }
 </style>
