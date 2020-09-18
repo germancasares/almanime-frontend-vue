@@ -3,7 +3,12 @@
     <div class="container">
       <div class="navbar-brand">
         <router-link :to="{ name: 'home' }" class="navbar-item">
-          <img src="https://bulma.io/images/bulma-logo.png" alt="Almanime: subtitles for all" width="112" height="28" />
+          <img
+            :src="`https://bulma.io/images/bulma-logo${isDarkTheme ? '-light' : ''}.png`"
+            alt="Almanime: subtitles for all"
+            width="112"
+            height="28"
+          />
         </router-link>
 
         <div class="navbar-burger">
@@ -46,7 +51,7 @@
           </div>
 
           <div class="navbar-item theme-switch" v-on:click="updateTheme">
-            <b-icon :icon="isDarkTheme ? 'weather-night' : 'white-balance-sunny'"></b-icon>
+            <b-icon :icon="isDarkTheme ? 'white-balance-sunny' : 'weather-night'"></b-icon>
           </div>
 
           <div class="navbar-item has-dropdown is-hoverable" v-if="isAuthenticated">
@@ -125,6 +130,50 @@ export default class Header extends Vue {
 
 .navbar-item {
   padding: 0.5rem 1rem;
+  @include themed() {
+    color: findColorInvert(t($background-header));
+  }
+}
+
+.navbar-start :hover {
+  @include themed() {
+    background-color: t($background-header);
+    color: t($primary);
+  }
+}
+
+.navbar-item.has-dropdown.is-active {
+  @include themed() {
+    background-color: t($background-header);
+  }
+}
+
+.navbar-link {
+  min-width: 131px;
+  text-transform: capitalize;
+
+  @include themed() {
+    color: findColorInvert(t($background-header));
+  }
+}
+
+.navbar-item.has-dropdown:hover .navbar-link {
+  @include themed() {
+    background-color: t($background-header);
+  }
+}
+
+.navbar-dropdown {
+  @include themed() {
+    background-color: t($background-header);
+    border-top-color: t($title);
+  }
+
+  .navbar-divider {
+    @include themed() {
+      background-color: t($title);
+    }
+  }
 }
 
 .theme-switch {
@@ -132,13 +181,43 @@ export default class Header extends Vue {
   padding-right: 0.25rem;
 }
 
-.navbar-link {
-  min-width: 131px;
-  text-transform: capitalize;
-}
-
 .avatar {
   padding-right: 0.5rem;
   padding-left: 0;
+}
+
+.select {
+  select {
+    @include themed() {
+      background-color: t($background-header-bis);
+      color: findColorInvert(t($background-header-bis));
+    }
+
+    option {
+      @include themed() {
+        color: findColorInvert(t($background-header-bis));
+      }
+    }
+  }
+}
+
+.input {
+  @include themed() {
+    background-color: t($background-header-bis);
+    color: findColorInvert(t($background-header-bis));
+  }
+
+  &::placeholder {
+    @include themed() {
+      color: findColorInvert(t($background-header-bis));
+    }
+  }
+}
+
+.button {
+  @include themed() {
+    background-color: t($background-header-bis);
+    color: findColorInvert(t($background-header-bis));
+  }
 }
 </style>
