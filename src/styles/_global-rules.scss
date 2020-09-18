@@ -1,0 +1,11 @@
+.select:not(.is-multiple):not(.is-loading):after {
+  @include themed() {
+    border-color: t($primary);
+  }
+}
+
+.button.is-primary:hover {
+  @include themed() {
+    background-color: t($primary);
+  }
+}
