@@ -75,10 +75,10 @@
           <div class="navbar-item" v-else>
             <div class="field is-grouped">
               <p class="control">
-                <router-link :to="{ name: 'register' }" class="button is-primary">Register</router-link>
+                <router-link :to="{ name: 'register' }" class="button">Register</router-link>
               </p>
               <p class="control">
-                <router-link :to="{ name: 'login' }" class="button is-light">Login</router-link>
+                <router-link :to="{ name: 'login' }" class="button">Login</router-link>
               </p>
             </div>
           </div>
@@ -186,21 +186,6 @@ export default class Header extends Vue {
   padding-left: 0;
 }
 
-.select {
-  select {
-    @include themed() {
-      background-color: t($background-header-bis);
-      color: findColorInvert(t($background-header-bis));
-    }
-
-    option {
-      @include themed() {
-        color: findColorInvert(t($background-header-bis));
-      }
-    }
-  }
-}
-
 .input {
   @include themed() {
     background-color: t($background-header-bis);
@@ -211,13 +196,6 @@ export default class Header extends Vue {
     @include themed() {
       color: findColorInvert(t($background-header-bis));
     }
-  }
-}
-
-.button {
-  @include themed() {
-    background-color: t($background-header-bis);
-    color: findColorInvert(t($background-header-bis));
   }
 }
 </style>
