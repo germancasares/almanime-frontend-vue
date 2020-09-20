@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container fh">
     <section class="section">
       <div>
         <h1 class="title">Current Season</h1>
@@ -15,8 +15,7 @@
                 :isSelected="isBookmarked(anime.slug)"
                 @selected="addBookmark"
                 @deselected="unBookmark"
-              >
-              </Tile>
+              ></Tile>
             </div>
           </div>
         </div>
