@@ -38,8 +38,7 @@ import { mapState } from 'vuex';
   filters: { DateFull, Domain },
   computed: mapState('FansubView', ['fansub']),
 })
-export default class Info extends Vue {
-}
+export default class Info extends Vue {}
 </script>
 
 <style lang='scss' scoped>
