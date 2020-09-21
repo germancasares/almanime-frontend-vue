@@ -82,7 +82,7 @@ export default class Profile extends Vue {
 <style lang='scss' scoped>
 .title {
   @include themed() {
-    color: findColorInvert(t($background));
+    color: t($title);
   }
 }
 
