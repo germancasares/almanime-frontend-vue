@@ -1,0 +1,42 @@
+// Color for the arrows on the selects
+.select:not(.is-multiple):not(.is-loading):after {
+  @include themed() {
+    border-color: t($primary);
+  }
+}
+
+// Button style
+.button {
+  @include themed() {
+    background-color: t($primary);
+    color: findColorInvert(t($primary));
+    border-color: t($border-color);
+  }
+
+  &:hover {
+    @include themed() {
+      background-color: t($primary);
+      color: findColorInvert(t($primary));
+    }
+  }
+}
+
+// Containers temporary full height
+.fh {
+  min-height: 100vh;
+}
+
+.select {
+  select {
+    @include themed() {
+      background-color: t($background-header-bis);
+      color: findColorInvert(t($background-header-bis));
+    }
+
+    option {
+      @include themed() {
+        color: findColorInvert(t($background-header-bis));
+      }
+    }
+  }
+}

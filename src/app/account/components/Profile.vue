@@ -12,16 +12,16 @@
         <div class="file-upload is-flex">
           <b-field class="file">
             <b-upload v-model="avatar" @input="onAvatarChanged">
-              <a class="button is-info is-medium">
+              <button class="button is-medium">
                 <b-icon icon="upload" size="is-small"></b-icon>
                 <span>Click to upload</span>
-              </a>
+              </button>
             </b-upload>
             <span class="file-name" v-if="avatar.size > 0">{{ avatar.name }}</span>
           </b-field>
         </div>
         <div class="save is-flex">
-          <button class="button is-primary is-medium">Save</button>
+          <button class="button is-medium">Save</button>
         </div>
       </form>
     </div>
@@ -80,6 +80,12 @@ export default class Profile extends Vue {
 </script>
 
 <style lang='scss' scoped>
+.title {
+  @include themed() {
+    color: t($title);
+  }
+}
+
 .avatar {
   justify-content: center;
 }

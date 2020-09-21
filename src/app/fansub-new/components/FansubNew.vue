@@ -1,5 +1,5 @@
 <template>
-  <section class="hero is-fullheight is-primary is-bold">
+  <section class="hero is-fullheight">
     <div class="hero-body">
       <div class="container">
         <div class="columns">
@@ -22,19 +22,25 @@
               <div class="columns">
                 <div class="column is-half">
                   <label class="label">Main language of subtitles</label>
-                  <b-field>
-                    <b-select v-model="fansub.mainLanguage" placeholder="Language" icon="translate">
-                      <option v-for="language in languages" :key="language" :value="language">{{ language }}</option>
-                    </b-select>
-                  </b-field>
+                  <div class="control has-icons-left">
+                    <span class="select">
+                      <select v-model="fansub.mainLanguage">
+                        <option v-for="language in languages" :key="language" :value="language">{{ language }}</option>
+                      </select>
+                    </span>
+                    <b-icon class="is-left" icon="translate"></b-icon>
+                  </div>
                 </div>
                 <div class="column is-half">
                   <label class="label">New members accepted by</label>
-                  <b-field>
-                    <b-select v-model="fansub.membershipOption" placeholder="Join" icon="account-multiple-plus">
-                      <option v-for="option in membershipOptions" :key="option" :value="option">{{ option }}</option>
-                    </b-select>
-                  </b-field>
+                  <div class="control has-icons-left">
+                    <span class="select">
+                      <select v-model="fansub.membershipOption">
+                        <option v-for="option in membershipOptions" :key="option" :value="option">{{ option }}</option>
+                      </select>
+                    </span>
+                    <b-icon class="is-left" icon="account-multiple-plus"></b-icon>
+                  </div>
                 </div>
               </div>
               <label class="label">Webpage</label>
@@ -44,7 +50,7 @@
               <hr />
               <p class="control">
                 <button class="button is-default">Cancel</button>
-                <button class="button is-primary is-pulled-right">Create</button>
+                <button class="button is-pulled-right">Create</button>
               </p>
             </form>
           </div>
@@ -88,9 +94,11 @@ export default class FansubNew extends Vue {
   private isAcronymAvailable = false;
 
   private async create() {
-    await FansubService.Create(this.fansub)
-    .then(() => {
-      this.$router.push({ name: 'fansub-view', params: { acronym: this.fansub.acronym } });
+    await FansubService.Create(this.fansub).then(() => {
+      this.$router.push({
+        name: 'fansub-view',
+        params: { acronym: this.fansub.acronym },
+      });
     });
   }
 
@@ -121,12 +129,48 @@ export default class FansubNew extends Vue {
     this.isAcronymAvailable = await FansubService.IsAcronymAvailable(acronym);
     this.isAcronymVisible = true;
   }
-
 }
 </script>
 
 <style lang='scss' scoped>
+.hero {
+  @include themed() {
+    background-image: t($background-gradient);
+  }
+}
+
 .control {
   margin-bottom: 0.5em;
+}
+
+.title {
+  @include themed() {
+    color: findColorInvert(t($background));
+  }
+}
+
+.box {
+  @include themed() {
+    background-color: t($background);
+  }
+
+  .label {
+    @include themed() {
+      color: findColorInvert(t($background));
+    }
+  }
+}
+
+.input {
+  @include themed() {
+    background-color: t($background-header-bis);
+    color: findColorInvert(t($background-header-bis));
+  }
+
+  &::placeholder {
+    @include themed() {
+      color: findColorInvert(t($background-header-bis));
+    }
+  }
 }
 </style>

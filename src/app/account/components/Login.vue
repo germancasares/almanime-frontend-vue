@@ -1,10 +1,8 @@
 <template>
-  <section class="hero is-primary is-bold is-fullheight">
+  <section class="hero is-fullheight">
     <div class="hero-body">
       <div class="container has-text-centered">
         <div class="column is-6 is-offset-3">
-          <h3 class="title">Login</h3>
-          <p class="subtitle">Please login to proceed.</p>
           <div class="box">
             <figure class="avatar">
               <img src="https://i.imgur.com/jitaYgk.png" />
@@ -14,28 +12,39 @@
 
               <div class="field">
                 <div class="control">
-                  <input class="input is-large" v-bind:class="{ 'is-danger': isUnauthorized }" v-model="loginForm.identifier" placeholder="Username or Email" autofocus required />
+                  <input
+                    class="input is-large"
+                    v-bind:class="{ 'is-danger': isUnauthorized }"
+                    v-model="loginForm.identifier"
+                    placeholder="Username or Email"
+                    autofocus
+                    required
+                  />
                 </div>
               </div>
 
               <div class="field">
                 <div class="control">
-                  <input class="input is-large" v-bind:class="{ 'is-danger': isUnauthorized }" type="password" v-model="loginForm.password" placeholder="Your Password" required />
+                  <input
+                    class="input is-large"
+                    v-bind:class="{ 'is-danger': isUnauthorized }"
+                    type="password"
+                    v-model="loginForm.password"
+                    placeholder="Your Password"
+                    required
+                  />
                 </div>
               </div>
 
               <div class="field">
-                <label class="checkbox">
-                  <input type="checkbox" v-model="beRemembered" />Remember me
-                </label>
+                <label class="checkbox"> <input type="checkbox" v-model="beRemembered" />Remember me </label>
               </div>
 
-              <button class="button is-block is-info is-large is-fullwidth">Login</button>
+              <button class="button is-block is-large is-fullwidth">Login</button>
             </form>
           </div>
-          <p class="has-text-grey">
-            <router-link :to="{ name: 'register' }">Register</router-link>&nbsp;·&nbsp;
-            <a href="../">Forgot Password</a> &nbsp;·&nbsp;
+          <p class="links">
+            <router-link :to="{ name: 'register' }">Register</router-link>&nbsp;·&nbsp; <a href="../">Forgot Password</a> &nbsp;·&nbsp;
             <a href="../">Need Help?</a>
           </p>
         </div>
@@ -88,6 +97,12 @@ export default class Login extends Vue {
 </script>
 
 <style lang='scss' scoped>
+.hero {
+  @include themed() {
+    background-image: t($background-gradient);
+  }
+}
+
 .avatar {
   margin-top: -90px;
   height: 128px;
@@ -103,14 +118,43 @@ export default class Login extends Vue {
 .box {
   margin-top: 5rem;
 
+  @include themed() {
+    background-color: t($background);
+  }
+
   :not(:last-child) {
     margin-bottom: 1.5rem;
   }
 }
 
+.input {
+  @include themed() {
+    background-color: t($background-header-bis);
+    color: findColorInvert(t($background-header-bis));
+  }
+
+  &::placeholder {
+    @include themed() {
+      color: findColorInvert(t($background-header-bis));
+    }
+  }
+}
+
 .checkbox {
+  @include themed() {
+    color: findColorInvert(t($background-header-bis));
+  }
+
   input {
     margin-right: 0.5rem;
+  }
+}
+
+.links {
+  a:hover {
+    @include themed() {
+      color: t($primary);
+    }
   }
 }
 </style>

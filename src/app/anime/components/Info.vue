@@ -6,23 +6,23 @@
     <div>
       <ul>
         <li v-if="anime.episodes">
-          <strong class="has-text-primary has-text-weight-bold">Episodes: </strong>
+          <strong class="has-text-weight-bold">Episodes: </strong>
           <span>{{ anime.episodes.length }}</span>
         </li>
         <li>
-          <strong class="has-text-primary has-text-weight-bold">Status: </strong>
+          <strong class="has-text-weight-bold">Status: </strong>
           <span>{{ anime.status }}</span>
         </li>
         <li>
-          <strong class="has-text-primary has-text-weight-bold">Aired: </strong>
+          <strong class="has-text-weight-bold">Aired: </strong>
           <span>{{ anime.startDate | DateFull }}</span>
         </li>
         <li>
-          <strong class="has-text-primary has-text-weight-bold">Season: </strong>
+          <strong class="has-text-weight-bold">Season: </strong>
           <span>{{ anime.season }}</span>
         </li>
         <li class="links">
-          <strong class="has-text-primary has-text-weight-bold">Links: </strong>
+          <strong class="has-text-weight-bold">Links: </strong>
           <a :href="`https://kitsu.io/anime/${anime.slug}`" target="_blank">
             <img class="kitsuLogo" :src="kitsuLogo" />
           </a>
@@ -53,8 +53,10 @@ export default class Info extends Vue {
 .media-summary {
   margin-top: 20px;
   padding: 20px;
-  border: 1px solid $primary;
   border-radius: 3px;
+  @include themed() {
+    border: 1px solid t($primary);
+  }
 
   h5 {
     display: flex;
@@ -63,15 +65,30 @@ export default class Info extends Vue {
     top: -37px;
 
     span {
-      background-color: $background;
       padding: 0 10px;
       font-family: $font-asap-condensed;
+      @include themed() {
+        color: t($primary);
+        background-color: t($background);
+      }
     }
   }
 
   div {
     position: relative;
     margin-top: -35px;
+
+    strong {
+      @include themed() {
+        color: t($primary);
+      }
+
+      + span {
+        @include themed() {
+          color: findColorInvert(t($background));
+        }
+      }
+    }
 
     .links {
       display: flex;

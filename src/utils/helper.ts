@@ -13,9 +13,14 @@ export default {
   ResizeImageOrDefault,
   Cookie: {
     GetAccountState,
-    Create,
-    Delete,
+    Create: CreateCookie,
+    Delete: DeleteCookie,
     ACCOUNTSTATECOOKIE,
+  },
+  LocalStorage: {
+    Create: CreateLocalStorage,
+    Get: GetLocalStorage,
+    Delete: DeleteLocalStorage,
   },
 };
 
@@ -44,18 +49,21 @@ function GetSeason(month: number | DateTime): Season {
   }
 }
 
+// #region Cookie
+
 export interface ICookie {
   expiration: DateTime;
 }
 
-function Create(name: string, cookie: ICookie): void {
+function CreateCookie(name: string, cookie: ICookie): void {
   set(name, JSON.stringify(cookie), {
     expires: cookie.expiration.toJSDate(),
+    sameSite: 'strict',
   });
 }
 
-function Delete(name: string): void {
-  remove(name);
+function DeleteCookie(name: string): void {
+  remove(name, { sameSite: 'strict' });
 }
 
 function GetCookie<T>(name: string): T | null {
@@ -90,6 +98,30 @@ function GetAccountState(): IAccountState | null {
     expiration: StringToDateTime(cookie.expiration),
   };
 }
+
+// #endregion
+
+// #region LocalStorage
+
+function CreateLocalStorage(key: string, value: any) {
+  localStorage.setItem(key, JSON.stringify(value));
+}
+
+function GetLocalStorage<T>(key: string): T | null {
+  const item = localStorage.getItem(key);
+
+  if (item === null) {
+    return null;
+  }
+
+  return JSON.parse(item);
+}
+
+function DeleteLocalStorage(key: string) {
+  localStorage.removeItem(key);
+}
+
+// #endregion
 
 function StringToDateTime(date: string): DateTime {
   return DateTime.fromISO(date, { zone: 'utc' });

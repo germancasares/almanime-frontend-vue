@@ -16,9 +16,7 @@ import { mapState } from 'vuex';
 @Component({
   components: { Poster, Info },
 })
-export default class Sidebar extends Vue {
-
-}
+export default class Sidebar extends Vue {}
 </script>
 
 <style lang='scss' scoped>

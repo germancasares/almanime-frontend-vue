@@ -1,7 +1,5 @@
 <template>
-  <div class="container">
-      sdadsadsadsadsadsadsadsadsadsadsadsa
-  </div>
+  <div class="container">sdadsadsadsadsadsadsadsadsadsadsadsa</div>
 </template>
 
 <script lang="ts">
@@ -14,11 +12,13 @@ import { FansubUser } from '../../../models';
 })
 export default class Members extends Vue {
   private members!: FansubUser[];
-
-
 }
 </script>
 
 <style lang='scss' scoped>
-
+.container {
+  @include themed() {
+    color: findColorInvert(t($background));
+  }
+}
 </style>
