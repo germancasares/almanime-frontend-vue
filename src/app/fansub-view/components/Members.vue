@@ -16,4 +16,9 @@ export default class Members extends Vue {
 </script>
 
 <style lang='scss' scoped>
+.container {
+  @include themed() {
+    color: findColorInvert(t($background));
+  }
+}
 </style>

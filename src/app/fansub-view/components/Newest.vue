@@ -92,4 +92,9 @@ export default class Newest extends Vue {
 </script>
 
 <style lang='scss' scoped>
+.title {
+  @include themed() {
+    color: findColorInvert(t($background));
+  }
+}
 </style>
