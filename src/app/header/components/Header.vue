@@ -133,6 +133,13 @@ export default class Header extends Vue {
   @include themed() {
     color: findColorInvert(t($background-header));
   }
+
+  &:focus {
+    @include themed() {
+      color: findColorInvert(t($background-header));
+      background-color: t($background-header);
+    } 
+  }
 }
 
 .navbar-start :hover {
