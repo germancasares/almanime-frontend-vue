@@ -8,13 +8,13 @@
             <form class="box" @submit.prevent="create">
               <label class="label">Name</label>
               <p class="control">
-                <input v-model="fansub.fullName" @keyup="checkFullName" class="input" type="text" placeholder="Sugoi Hikikomori no Fansub" />
+                <input v-model="fansub.fullName" @keyup="checkFullNameDebounced" class="input" type="text" placeholder="Sugoi Hikikomori no Fansub" />
               </p>
               <p v-show="isFullNameVisible && isFullNameAvailable" class="help is-success">This name is available</p>
               <p v-show="isFullNameVisible && !isFullNameAvailable" class="help is-danger">This name is not available</p>
               <label class="label">Acronym</label>
               <p class="control">
-                <input v-model="fansub.acronym" @keyup="checkAcronym" class="input" type="text" placeholder="SHknF" />
+                <input v-model="fansub.acronym" @keyup="checkAcronymDebounced" class="input" type="text" placeholder="SHknF" />
               </p>
               <p v-show="isAcronymVisible && isAcronymAvailable" class="help is-success">This acronym is available</p>
               <p v-show="isAcronymVisible && !isAcronymAvailable" class="help is-danger">This acronym is not available</p>
@@ -67,6 +67,7 @@ import { FansubNew as Form } from '@/models';
 import { FansubService } from '@/services';
 import { FansubMainLanguage, FansubMembershipOption } from '@/enums';
 import Axios from 'axios';
+import { debounce } from 'debounce';
 
 @Component({
   computed: {
@@ -90,9 +91,11 @@ export default class FansubNew extends Vue {
   private isFullNameVisible = false;
   private isFullNameAvailable = false;
 
+  private checkFullNameDebounced = debounce(this.checkFullName, 500);
   private isAcronymVisible = false;
   private isAcronymAvailable = false;
 
+  private checkAcronymDebounced = debounce(this.checkAcronym, 500);
   private async create() {
     await FansubService.Create(this.fansub).then(() => {
       this.$router.push({
