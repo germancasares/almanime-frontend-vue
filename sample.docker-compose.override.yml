@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  frontend:
+    build:
+      context: .
+      target: 'develop-stage'
+    environment:
+      NODE_ENV: development
+      CHOKIDAR_USEPOLLING: 1
+    ports:
+      - 8080:8080
+      - 8000:8000
+    volumes:
+      - '.:/app:cached'
+      - 'node_modules:/app/node_modules/'
+    # command: /bin/sh -c "apt-get update && apt-get -y install inotify-tools && npm install -g @vue/cli &&vue ui --host 0.0.0.0"
+    command: /bin/sh -c "npm run serve"
+
+volumes:
+  node_modules:
