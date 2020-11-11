@@ -14,6 +14,19 @@ module.exports = {
   rules: {
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
+    'max-len': [
+      'error', {
+        'code': 120
+      }
+    ],
+    'vue/max-attributes-per-line': [
+      'error', {
+        'singleline': 3,
+        'multiline': {
+          'max': 3
+        }
+      }
+    ]
   },
   overrides: [
     {
