@@ -1,5 +1,6 @@
 export { Login, Register } from './account';
 export { Anime } from './anime';
+export { AnimeIndex } from './animeIndex';
 export { AnimeWithEpisodes } from './animeWithEpisodes';
 export { AnimeWithEpisodesAndSubtitle } from './animeWithEpisodesAndSubtitle';
 export { Bookmark } from './bookmark';
