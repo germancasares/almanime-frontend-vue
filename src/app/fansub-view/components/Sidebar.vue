@@ -1,7 +1,12 @@
 <template>
   <aside>
-    <Poster></Poster>
-    <Info></Info>
+    <Poster/>
+    <Info/>
+    <div class="new-subtitle is-flex mt-3">
+      <router-link :to="{ name: 'subtitle-new', params: { acronym: fansub.acronym } }" class="button is-fullwidth">
+        + Subtitle
+      </router-link>
+    </div>
   </aside>
 </template>
 
@@ -15,6 +20,7 @@ import { mapState } from 'vuex';
 
 @Component({
   components: { Poster, Info },
+  computed: mapState('FansubView', ['fansub']),
 })
 export default class Sidebar extends Vue {}
 </script>
