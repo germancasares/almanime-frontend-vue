@@ -12,10 +12,10 @@
         <div class="file-upload is-flex">
           <b-field class="file">
             <b-upload v-model="avatar" @input="onAvatarChanged">
-              <button class="button is-medium">
+              <span class="button is-medium">
                 <b-icon icon="upload" size="is-small"></b-icon>
                 <span>Click to upload</span>
-              </button>
+              </span>
             </b-upload>
             <span class="file-name" v-if="avatar.size > 0">{{ avatar.name }}</span>
           </b-field>
