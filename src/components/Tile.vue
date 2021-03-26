@@ -2,7 +2,7 @@
   <div class="tile-content">
     <router-link :to="route">
       <div class="overlay"></div>
-      <figure class="image is-16by9">
+      <figure class="image" :class="imageRes">
         <img :src="cover" />
       </figure>
       <div class="name">
@@ -36,6 +36,7 @@ export default class Tile extends Vue {
   @Prop() private image!: URL | null;
   @Prop() private route!: Route | null;
   @Prop() private isSelected!: boolean;
+  @Prop({ default: 'is-16by9' }) private imageRes!: string;
 
   private defaultCover() {
     return require('@/assets/default-cover.jpg');
