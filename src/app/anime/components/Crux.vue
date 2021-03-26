@@ -3,7 +3,7 @@
     <section class="title is-size-3 has-text-weight-semibold">{{ anime.name }}</section>
     <section class="synopsis">{{ anime.synopsis }}</section>
     <section class="chapters">
-      <b-table :data="episodeList">
+      <b-table :data="episodeList" v-if="episodeList !== undefined && episodeList.length > 0">
         <template slot-scope="props">
           <b-table-column field="number" label="#" meta="Number">
             <template slot="header" slot-scope="{ column }">
