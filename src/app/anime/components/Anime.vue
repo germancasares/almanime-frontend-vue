@@ -34,12 +34,12 @@ import AnimeModule from '@/app/anime/store';
     next();
   },
   beforeRouteUpdate: async (to, from, next) => {
-    if (to.name === "anime" && to.params.slug !== "") {
+    if (to.name === 'anime' && to.params.slug !== '') {
       await AnimeModule.GetAnimeBySlug(to.params.slug).catch(alert);
     }
 
     next();
-  }
+  },
 })
 export default class Anime extends Vue {
   private async created() {

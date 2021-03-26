@@ -122,16 +122,16 @@ import { AnimeIndex } from '@/models';
   },
 })
 export default class Header extends Vue {
-  readonly $refs!: Vue['$refs'] & {
+  public readonly $refs!: Vue['$refs'] & {
     search: {
-      toggle: Function,
+      toggle: () => void,
       isActive: boolean,
-    }
-  }
+    },
+  };
 
   private isDarkTheme!: boolean;
-  private searchQuery = "";
-  private searchResults: Array<AnimeIndex> = [];
+  private searchQuery = '';
+  private searchResults: AnimeIndex[] = [];
   private searchDebounced = debounce(this.search, 200);
 
   private logout() {
@@ -147,16 +147,16 @@ export default class Header extends Vue {
   }
 
   private async search() {
-    if (this.searchQuery.trim() === "") {
+    if (this.searchQuery.trim() === '') {
       this.$refs.search.isActive = false;
       return;
     }
 
     this.searchResults = await ElasticService.Anime(this.searchQuery);
 
-    if (this.$route.name === "anime") {
+    if (this.$route.name === 'anime') {
       const currentSlug = this.$route.params.slug;
-      this.searchResults = this.searchResults.filter(result => result.slug !== currentSlug)
+      this.searchResults = this.searchResults.filter((result) => result.slug !== currentSlug);
     }
 
     if (this.searchResults.length === 0) {
