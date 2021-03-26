@@ -33,7 +33,9 @@ export class FansubService {
   public static async Get(acronym: string): Promise<Fansub> {
     const fansub = (await Axios.get(`fansub/${acronym}`)).data;
 
-    fansub.webpage = new URL(fansub.webpage);
+    if (fansub.webpage !== undefined) {
+      fansub.webpage = new URL(fansub.webpage);
+    }
 
     return fansub;
   }

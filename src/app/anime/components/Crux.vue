@@ -1,9 +1,9 @@
 <template>
   <div class="crux">
-    <section id="title" class="is-size-3 has-text-weight-semibold has-text-grey-dark">{{ anime.name }}</section>
+    <section class="title is-size-3 has-text-weight-semibold">{{ anime.name }}</section>
     <section class="synopsis">{{ anime.synopsis }}</section>
     <section class="chapters">
-      <b-table :data="episodeList">
+      <b-table :data="episodeList" v-if="episodeList !== undefined && episodeList.length > 0">
         <template slot-scope="props">
           <b-table-column field="number" label="#" meta="Number">
             <template slot="header" slot-scope="{ column }">
@@ -64,15 +64,23 @@ export default class Crux extends Vue {
   padding-left: 40px;
   height: 100%;
 
-  #title {
+  .title {
     display: flex;
     align-items: center;
     height: 140px;
     font-family: $font-asap-condensed;
+
+    @include themed() {
+      color: findColorInvert(t($background));
+    }
   }
 
   .synopsis {
     padding-top: 20px;
+
+    @include themed() {
+      color: findColorInvert(t($background));
+    }
   }
 
   .chapters {

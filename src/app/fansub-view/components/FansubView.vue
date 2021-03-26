@@ -4,10 +4,10 @@
     <section class="container">
       <div class="columns">
         <div class="column is-narrow is-paddingless">
-          <Sidebar></Sidebar>
+          <Sidebar/>
         </div>
         <div class="column is-paddingless">
-          <Crux></Crux>
+          <Crux/>
         </div>
       </div>
     </section>

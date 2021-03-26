@@ -39,7 +39,7 @@ export default class Hero extends Vue {
 }
 </script>
 
-<style scoped lang='scss'>
+<style lang='scss' scoped>
 #hero {
   object-fit: cover;
   width: 100%;
@@ -56,7 +56,10 @@ export default class Hero extends Vue {
     position: relative;
     top: 50%;
     height: 50%;
-    background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0), $background);
+
+    @include themed() {
+      background-image: linear-gradient(to bottom, #FF000000, t($background));
+    }
   }
 }
 </style>

@@ -1,7 +1,5 @@
 <template>
-  <main class="container">
-    <router-link :to="{ name: 'fansub-new' }">Create new fansub</router-link>|
-  </main>
+  <main class="container fh"><router-link :to="{ name: 'fansub-new' }">Create new fansub</router-link>|</main>
 </template>
 
 <script lang="ts">
@@ -11,11 +9,8 @@ import { mapState } from 'vuex';
 @Component({
   computed: mapState('FansubList', ['']),
 })
-export default class FansubList extends Vue {
-
-}
+export default class FansubList extends Vue {}
 </script>
 
 <style lang='scss' scoped>
-
 </style>

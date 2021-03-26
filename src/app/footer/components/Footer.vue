@@ -14,5 +14,17 @@
 export default {};
 </script>
 
-<style>
+<style lang='scss' scoped>
+.footer {
+  @include themed() {
+    background-color: t($background-footer);
+    color: findColorInvert(t($background-footer));
+  }
+}
+
+strong {
+  @include themed() {
+    color: findColorInvert(t($background-footer));
+  }
+}
 </style>

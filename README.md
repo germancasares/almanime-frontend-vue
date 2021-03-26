@@ -4,9 +4,10 @@
 
   * [Add environment variables](#add-environment-variables)
   * [Configure the Docker Compose Override](#configure-the-docker-compose-override)
-  * [[Optional] VSCode as a IDE](#optional-vscode-as-a-ide)
+  * [[Optional] VS Code as a IDE](#optional-vscode-as-a-ide)
     * [Recommended plugins](#recommended-plugins)
     * [Setup VS Code for development in a container](#setup-vs-code-for-development-in-a-container)
+    * [Debug from VS Code](#debug-from-vs-code)
 
 # Add environment variables
 
@@ -30,10 +31,11 @@ Create a `docker-compose.override.yml` file with the following snippet:
         NODE_ENV: development
       ports:
         - 80:8080
+        - 8000:8000
       volumes:
         - '.:/app:cached'
         - 'node_modules:/app/node_modules/'
-      command: /bin/sh -c "npm run serve"
+      command: /bin/sh -c "npm install -g @vue/cli && vue ui --host 0.0.0.0""
 
   volumes:
     node_modules:
@@ -103,3 +105,38 @@ Create a `docker-compose.override.yml` file with the following snippet:
     ```
 4. Open the command palette (F1) or (Ctrl+Shift+P) and use `Remote-Containers: Reopen in Container` command.
 5. Open http://localhost/ in your favorite browser.
+
+## Debug from VS Code
+
+Note: You will need to go to `http://localhost:8000` to serve the app before going through the steps.
+
+1. Open the Run command window (Win+R) and type: "C:\Program Files\Firefox Developer Edition\firefox.exe" -P
+2. Check that there is a profile named `default`, if not, create it.
+3. Create a .vscode folder on the root of the project
+4. Create a `launch.json` file with the following snippet:
+    ```JSON5
+    {
+        "version": "0.2.0",
+        "configurations": [
+            {
+                "type": "firefox",
+                "request": "launch",
+                "name": "vuejs: firefox",
+                "url": "http://localhost:8080",
+                "webRoot": "${workspaceFolder}/src",
+                "keepProfileChanges" : true,
+                "profile" : "default",
+                "firefoxArgs": [
+                    "-devtools",
+                ],
+                "pathMappings": [
+                    {
+                        "url": "webpack-vue:///src/app",
+                        "path": "${workspaceFolder}/src/app"
+                    }
+                ]
+            }
+        ]
+    }
+    ```
+5. Press F5 or start the debug session:

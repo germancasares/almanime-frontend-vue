@@ -1,5 +1,5 @@
 <template>
-  <section class="hero is-fullheight is-primary is-bold">
+  <section class="hero is-fullheight">
     <div class="hero-body">
       <div class="container">
         <div class="columns">
@@ -8,13 +8,13 @@
             <form class="box" @submit.prevent="create">
               <label class="label">Name</label>
               <p class="control">
-                <input v-model="fansub.fullName" @keyup="checkFullName" class="input" type="text" placeholder="Sugoi Hikikomori no Fansub" />
+                <input v-model="fansub.fullName" @keyup="checkFullNameDebounced" class="input" type="text" placeholder="Sugoi Hikikomori no Fansub" />
               </p>
               <p v-show="isFullNameVisible && isFullNameAvailable" class="help is-success">This name is available</p>
               <p v-show="isFullNameVisible && !isFullNameAvailable" class="help is-danger">This name is not available</p>
               <label class="label">Acronym</label>
               <p class="control">
-                <input v-model="fansub.acronym" @keyup="checkAcronym" class="input" type="text" placeholder="SHknF" />
+                <input v-model="fansub.acronym" @keyup="checkAcronymDebounced" class="input" type="text" placeholder="SHknF" />
               </p>
               <p v-show="isAcronymVisible && isAcronymAvailable" class="help is-success">This acronym is available</p>
               <p v-show="isAcronymVisible && !isAcronymAvailable" class="help is-danger">This acronym is not available</p>
@@ -22,19 +22,25 @@
               <div class="columns">
                 <div class="column is-half">
                   <label class="label">Main language of subtitles</label>
-                  <b-field>
-                    <b-select v-model="fansub.mainLanguage" placeholder="Language" icon="translate">
-                      <option v-for="language in languages" :key="language" :value="language">{{ language }}</option>
-                    </b-select>
-                  </b-field>
+                  <div class="control has-icons-left">
+                    <span class="select">
+                      <select v-model="fansub.mainLanguage">
+                        <option v-for="language in languages" :key="language" :value="language">{{ language }}</option>
+                      </select>
+                    </span>
+                    <b-icon class="is-left" icon="translate"></b-icon>
+                  </div>
                 </div>
                 <div class="column is-half">
                   <label class="label">New members accepted by</label>
-                  <b-field>
-                    <b-select v-model="fansub.membershipOption" placeholder="Join" icon="account-multiple-plus">
-                      <option v-for="option in membershipOptions" :key="option" :value="option">{{ option }}</option>
-                    </b-select>
-                  </b-field>
+                  <div class="control has-icons-left">
+                    <span class="select">
+                      <select v-model="fansub.membershipOption">
+                        <option v-for="option in membershipOptions" :key="option" :value="option">{{ option }}</option>
+                      </select>
+                    </span>
+                    <b-icon class="is-left" icon="account-multiple-plus"></b-icon>
+                  </div>
                 </div>
               </div>
               <label class="label">Webpage</label>
@@ -44,7 +50,7 @@
               <hr />
               <p class="control">
                 <button class="button is-default">Cancel</button>
-                <button class="button is-primary is-pulled-right">Create</button>
+                <button class="button is-pulled-right">Create</button>
               </p>
             </form>
           </div>
@@ -61,6 +67,7 @@ import { FansubNew as Form } from '@/models';
 import { FansubService } from '@/services';
 import { FansubMainLanguage, FansubMembershipOption } from '@/enums';
 import Axios from 'axios';
+import { debounce } from 'debounce';
 
 @Component({
   computed: {
@@ -84,13 +91,17 @@ export default class FansubNew extends Vue {
   private isFullNameVisible = false;
   private isFullNameAvailable = false;
 
+  private checkFullNameDebounced = debounce(this.checkFullName, 500);
   private isAcronymVisible = false;
   private isAcronymAvailable = false;
 
+  private checkAcronymDebounced = debounce(this.checkAcronym, 500);
   private async create() {
-    await FansubService.Create(this.fansub)
-    .then(() => {
-      this.$router.push({ name: 'fansub-view', params: { acronym: this.fansub.acronym } });
+    await FansubService.Create(this.fansub).then(() => {
+      this.$router.push({
+        name: 'fansub-view',
+        params: { acronym: this.fansub.acronym },
+      });
     });
   }
 
@@ -121,12 +132,48 @@ export default class FansubNew extends Vue {
     this.isAcronymAvailable = await FansubService.IsAcronymAvailable(acronym);
     this.isAcronymVisible = true;
   }
-
 }
 </script>
 
 <style lang='scss' scoped>
+.hero {
+  @include themed() {
+    background-image: t($background-gradient);
+  }
+}
+
 .control {
   margin-bottom: 0.5em;
+}
+
+.title {
+  @include themed() {
+    color: findColorInvert(t($background));
+  }
+}
+
+.box {
+  @include themed() {
+    background-color: t($background);
+  }
+
+  .label {
+    @include themed() {
+      color: findColorInvert(t($background));
+    }
+  }
+}
+
+.input {
+  @include themed() {
+    background-color: t($background-header-bis);
+    color: findColorInvert(t($background-header-bis));
+  }
+
+  &::placeholder {
+    @include themed() {
+      color: findColorInvert(t($background-header-bis));
+    }
+  }
 }
 </style>
